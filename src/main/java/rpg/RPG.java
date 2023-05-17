@@ -40,7 +40,7 @@ public class RPG extends Application {
     sprites[x][y].getChildren().add(makeView(bulbasaur));
 
     Scene scene = new Scene(tiles);
-    scene.setOnKeyReleased(
+    scene.setOnKeyPressed(
         new EventHandler<KeyEvent>() {
           @Override
           public void handle(KeyEvent event) {
