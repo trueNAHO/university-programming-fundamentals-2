@@ -47,7 +47,7 @@ public class RPG extends Application {
             previousTime = currentTime;
             lag += elapsedMilliseconds;
 
-            processInput(elapsedMilliseconds);
+            handleInput(elapsedMilliseconds);
 
             while (lag >= MS_PER_UPDATE) {
               update(elapsedMilliseconds);
@@ -61,7 +61,7 @@ public class RPG extends Application {
     gameLoop.start();
   }
 
-  private void processInput(double elapsedMilliseconds) {}
+  private void handleInput(double elapsedMilliseconds) {}
 
   private void render(double elapsedMilliseconds) {}
 
