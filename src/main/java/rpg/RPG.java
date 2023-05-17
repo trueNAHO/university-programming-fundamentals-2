@@ -5,8 +5,8 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import rpg.entities.Player;
 
 public class RPG extends Application {
   private static final Color BACKGROUND_COLOR = Color.BLUE;
@@ -21,10 +21,9 @@ public class RPG extends Application {
 
   private static final double MS_PER_UPDATE = 1000 / FPS;
 
-  private Rectangle player;
-
   private Group root = new Group();
-  private Scene scene = new Scene(this.root, SCENE_WIDTH, SCENE_HEIGHT, BACKGROUND_COLOR);
+  private Player player = new Player(PLAYER_X, PLAYER_Y, PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_COLOR);
+  private Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT, BACKGROUND_COLOR);
   private double lag = 0;
   private long previousTime = 0;
 
@@ -34,7 +33,6 @@ public class RPG extends Application {
 
   @Override
   public void start(Stage primaryStage) {
-    this.player = createPlayer();
     this.root.getChildren().add(this.player);
 
     primaryStage.setTitle("RPG");
@@ -61,12 +59,6 @@ public class RPG extends Application {
         };
 
     gameLoop.start();
-  }
-
-  private Rectangle createPlayer() {
-    Rectangle rectangle = new Rectangle(PLAYER_X, PLAYER_Y, PLAYER_WIDTH, PLAYER_HEIGHT);
-    rectangle.setFill(PLAYER_COLOR);
-    return rectangle;
   }
 
   private void processInput(double elapsedMilliseconds) {}
