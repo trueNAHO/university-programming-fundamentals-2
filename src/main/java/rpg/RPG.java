@@ -65,5 +65,7 @@ public class RPG extends Application {
 
   private void render(double elapsedMilliseconds) {}
 
-  private void update(double elapsedMilliseconds) {}
+  private void update(double elapsedMilliseconds) {
+    this.player.update(elapsedMilliseconds);
+  }
 }
