@@ -71,7 +71,7 @@ public class RPG extends Application {
             lag += elapsedMilliseconds;
 
             while (lag >= MS_PER_UPDATE) {
-              update(elapsedMilliseconds);
+              update(MS_PER_UPDATE);
               lag -= MS_PER_UPDATE;
             }
 
