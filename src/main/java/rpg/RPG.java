@@ -54,8 +54,7 @@ public class RPG extends Application {
 
     setupDefaultKeyBindings();
     setupBlocks();
-
-    this.root.getChildren().add(this.player);
+    setupPlayer();
 
     primaryStage.setTitle("RPG");
     primaryStage.setScene(this.scene);
@@ -106,6 +105,10 @@ public class RPG extends Application {
     this.inputHandler.mapInput(KeyCode.LEFT, this.playerMoveLeftCommand);
     this.inputHandler.mapInput(KeyCode.RIGHT, this.playerMoveRightCommand);
     this.inputHandler.mapInput(KeyCode.UP, this.playerMoveUpCommand);
+  }
+
+  private void setupPlayer() {
+    this.root.getChildren().add(this.player);
   }
 
   private void update(double elapsedMilliseconds) {
