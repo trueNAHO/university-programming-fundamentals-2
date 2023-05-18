@@ -18,6 +18,7 @@ import rpg.command.PlayerMoveRightCommand;
 import rpg.command.PlayerMoveUpCommand;
 import rpg.entities.player.Player;
 import rpg.entities.player.states.IdleState;
+import rpg.field.Field;
 import rpg.input.InputHandler;
 
 public class RPG extends Application {
@@ -35,6 +36,7 @@ public class RPG extends Application {
 
   private ArrayList<Block> blocks = new ArrayList<>();
   private Block house = new Block(200, 200, 50, 50, Color.GREEN);
+  private Field field = new Field(500, 100, 100, 500, Color.BROWN, Color.YELLOW, 5, 5);
   private Group root = new Group();
   private InputHandler inputHandler = new InputHandler();
   private Player player = new Player(PLAYER_X, PLAYER_Y, PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_COLOR);
@@ -110,6 +112,14 @@ public class RPG extends Application {
 
   private void setupBlocks() {
     this.blocks.add(this.house);
+    this.blocks.add(this.field.field);
+
+    for (int i = 0; i < this.field.plants.size(); i++) {
+      for (int j = 0; j < this.field.plants.get(0).size(); j++) {
+        this.blocks.add(this.field.plants.get(i).get(j));
+      }
+    }
+
     for (Block block : this.blocks) {
       this.root.getChildren().add(block);
     }
@@ -139,5 +149,6 @@ public class RPG extends Application {
   private void update(double elapsedMilliseconds) {
     this.player.update(elapsedMilliseconds);
     this.playerCollideBlocks();
+    this.field.update(elapsedMilliseconds);
   }
 }
