@@ -1,6 +1,6 @@
 package rpg.command;
 
-import rpg.entities.Player;
+import rpg.entities.player.Player;
 
 public class PlayerMoveUpCommand implements Command {
   private final Player player;

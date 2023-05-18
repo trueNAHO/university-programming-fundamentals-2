@@ -12,7 +12,7 @@ import rpg.command.PlayerMoveDownCommand;
 import rpg.command.PlayerMoveLeftCommand;
 import rpg.command.PlayerMoveRightCommand;
 import rpg.command.PlayerMoveUpCommand;
-import rpg.entities.Player;
+import rpg.entities.player.Player;
 import rpg.input.InputHandler;
 
 public class RPG extends Application {

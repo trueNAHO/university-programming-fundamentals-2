@@ -1,9 +1,9 @@
-package rpg.entities;
+package rpg.entities.player;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import rpg.entities.states.NullState;
-import rpg.entities.states.PlayerState;
+import rpg.entities.player.states.NullState;
+import rpg.entities.player.states.PlayerState;
 
 public class Player extends Rectangle {
   private static final double SPEED = 1;

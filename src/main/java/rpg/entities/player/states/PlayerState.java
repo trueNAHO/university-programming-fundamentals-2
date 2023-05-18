@@ -1,6 +1,6 @@
-package rpg.entities.states;
+package rpg.entities.player.states;
 
-import rpg.entities.Player;
+import rpg.entities.player.Player;
 
 public interface PlayerState {
   void enter(Player player);

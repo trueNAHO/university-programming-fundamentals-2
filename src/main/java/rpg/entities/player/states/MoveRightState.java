@@ -1,14 +1,14 @@
-package rpg.entities.states;
+package rpg.entities.player.states;
 
-import rpg.entities.Player;
+import rpg.entities.player.Player;
 
-public class MoveUpState implements PlayerState {
+public class MoveRightState implements PlayerState {
   @Override
   public void enter(Player player) {}
 
   @Override
   public void update(Player player, double deltaTime) {
-    player.moveUp(deltaTime);
+    player.moveRight(deltaTime);
   }
 
   @Override
