@@ -6,6 +6,8 @@ import rpg.entities.states.NullState;
 import rpg.entities.states.PlayerState;
 
 public class Player extends Rectangle {
+  private static final double SPEED = 10;
+
   private PlayerState state;
 
   public Player(double x, double y, double width, double height, Color color) {
@@ -14,13 +16,21 @@ public class Player extends Rectangle {
     setFill(color);
   }
 
-  public void moveDown() {}
+  public void moveDown(double deltaTime) {
+    setTranslateY(getTranslateY() + SPEED * deltaTime);
+  }
 
-  public void moveLeft() {}
+  public void moveLeft(double deltaTime) {
+    setTranslateX(getTranslateX() - SPEED * deltaTime);
+  }
 
-  public void moveRight() {}
+  public void moveRight(double deltaTime) {
+    setTranslateX(getTranslateX() + SPEED * deltaTime);
+  }
 
-  public void moveUp() {}
+  public void moveUp(double deltaTime) {
+    setTranslateY(getTranslateY() - SPEED * deltaTime);
+  }
 
   public void setState(PlayerState newState) {
     this.state.exit(this);

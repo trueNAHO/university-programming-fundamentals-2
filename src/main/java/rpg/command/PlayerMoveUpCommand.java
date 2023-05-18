@@ -10,7 +10,7 @@ public class PlayerMoveUpCommand implements Command {
   }
 
   @Override
-  public void execute() {
-    player.moveUp();
+  public void execute(double deltaTime) {
+    player.moveUp(deltaTime);
   }
 }

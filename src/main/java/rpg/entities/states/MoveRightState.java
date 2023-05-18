@@ -7,7 +7,9 @@ public class MoveRightState implements PlayerState {
   public void enter(Player player) {}
 
   @Override
-  public void update(Player player, double deltaTime) {}
+  public void update(Player player, double deltaTime) {
+    player.moveRight(deltaTime);
+  }
 
   @Override
   public void exit(Player player) {}
