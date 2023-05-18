@@ -17,19 +17,19 @@ public class Player extends Rectangle {
   }
 
   public void moveDown(double deltaTime) {
-    setTranslateY(getTranslateY() + SPEED * deltaTime);
+    setY(getY() + SPEED * deltaTime);
   }
 
   public void moveLeft(double deltaTime) {
-    setTranslateX(getTranslateX() - SPEED * deltaTime);
+    setX(getX() - SPEED * deltaTime);
   }
 
   public void moveRight(double deltaTime) {
-    setTranslateX(getTranslateX() + SPEED * deltaTime);
+    setX(getX() + SPEED * deltaTime);
   }
 
   public void moveUp(double deltaTime) {
-    setTranslateY(getTranslateY() - SPEED * deltaTime);
+    setY(getY() - SPEED * deltaTime);
   }
 
   public void setState(PlayerState newState) {
