@@ -14,6 +14,14 @@ public class Player extends Rectangle {
     setFill(color);
   }
 
+  public void moveDown() {}
+
+  public void moveLeft() {}
+
+  public void moveRight() {}
+
+  public void moveUp() {}
+
   public void setState(PlayerState newState) {
     this.state.exit(this);
     this.state = newState;
