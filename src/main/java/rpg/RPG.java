@@ -1,5 +1,6 @@
 package rpg;
 
+import java.util.ArrayList;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -7,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import rpg.blocks.Block;
 import rpg.command.Command;
 import rpg.command.PlayerMoveDownCommand;
 import rpg.command.PlayerMoveLeftCommand;
@@ -28,6 +30,8 @@ public class RPG extends Application {
 
   private static final double MS_PER_UPDATE = 1000 / FPS;
 
+  private ArrayList<Block> blocks = new ArrayList<>();
+  private Block house = new Block(200, 200, 50, 50, Color.GREEN);
   private Group root = new Group();
   private InputHandler inputHandler = new InputHandler();
   private Player player = new Player(PLAYER_X, PLAYER_Y, PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_COLOR);
@@ -49,6 +53,7 @@ public class RPG extends Application {
   public void start(Stage primaryStage) {
 
     setupDefaultKeyBindings();
+    setupBlocks();
 
     this.root.getChildren().add(this.player);
 
@@ -88,6 +93,13 @@ public class RPG extends Application {
   }
 
   private void render(double elapsedMilliseconds) {}
+
+  private void setupBlocks() {
+    this.blocks.add(this.house);
+    for (Block block : this.blocks) {
+      this.root.getChildren().add(block);
+    }
+  }
 
   private void setupDefaultKeyBindings() {
     this.inputHandler.mapInput(KeyCode.DOWN, this.playerMoveDownCommand);
