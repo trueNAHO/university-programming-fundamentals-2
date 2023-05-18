@@ -6,7 +6,7 @@ import rpg.entities.states.NullState;
 import rpg.entities.states.PlayerState;
 
 public class Player extends Rectangle {
-  private static final double SPEED = 10;
+  private static final double SPEED = 1;
 
   private PlayerState state;
 
