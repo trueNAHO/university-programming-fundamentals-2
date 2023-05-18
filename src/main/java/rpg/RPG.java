@@ -16,6 +16,7 @@ import rpg.command.PlayerMoveDownCommand;
 import rpg.command.PlayerMoveLeftCommand;
 import rpg.command.PlayerMoveRightCommand;
 import rpg.command.PlayerMoveUpCommand;
+import rpg.day_night_cycle.DayNightCycle;
 import rpg.entities.player.Player;
 import rpg.entities.player.states.IdleState;
 import rpg.field.Field;
@@ -36,6 +37,7 @@ public class RPG extends Application {
 
   private ArrayList<Block> blocks = new ArrayList<>();
   private Block house = new Block(200, 200, 50, 50, Color.GREEN);
+  private DayNightCycle dayNightCycle = new DayNightCycle(true);
   private Field field = new Field(500, 100, 100, 500, Color.BROWN, Color.YELLOW, 5, 5);
   private Group root = new Group();
   private InputHandler inputHandler = new InputHandler();
@@ -147,6 +149,7 @@ public class RPG extends Application {
   }
 
   private void update(double elapsedMilliseconds) {
+    this.dayNightCycle.update(elapsedMilliseconds);
     this.player.update(elapsedMilliseconds);
     this.playerCollideBlocks();
     this.field.update(elapsedMilliseconds);
