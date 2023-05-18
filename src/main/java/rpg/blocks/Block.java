@@ -12,6 +12,10 @@ public class Block extends Rectangle {
     setFill(color);
   }
 
+  public boolean isInteractable() {
+    return this.state instanceof BlockInteractableState;
+  }
+
   public void setState(BlockState newState) {
     this.state.exit();
     this.state = newState;

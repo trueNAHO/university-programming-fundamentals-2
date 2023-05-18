@@ -9,6 +9,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import rpg.blocks.Block;
+import rpg.blocks.BlockIdleState;
+import rpg.blocks.BlockInteractableState;
 import rpg.command.Command;
 import rpg.command.PlayerMoveDownCommand;
 import rpg.command.PlayerMoveLeftCommand;
@@ -124,7 +126,18 @@ public class RPG extends Application {
     this.root.getChildren().add(this.player);
   }
 
+  private void playerCollideBlocks() {
+    for (Block block : this.blocks) {
+      if (player.intersects(block.getBoundsInLocal())) {
+        block.setState(new BlockInteractableState());
+      } else if (block.isInteractable()) {
+        block.setState(new BlockIdleState());
+      }
+    }
+  }
+
   private void update(double elapsedMilliseconds) {
     this.player.update(elapsedMilliseconds);
+    this.playerCollideBlocks();
   }
 }
