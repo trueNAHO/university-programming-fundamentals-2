@@ -1,6 +1,7 @@
 package rpg.command;
 
 import rpg.entities.player.Player;
+import rpg.entities.player.states.MoveUpState;
 
 public class PlayerMoveUpCommand implements Command {
   private final Player player;
@@ -11,6 +12,6 @@ public class PlayerMoveUpCommand implements Command {
 
   @Override
   public void execute(double deltaTime) {
-    player.moveUp(deltaTime);
+    player.setState(new MoveUpState());
   }
 }
