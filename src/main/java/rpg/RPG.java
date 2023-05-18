@@ -15,6 +15,7 @@ import rpg.command.PlayerMoveLeftCommand;
 import rpg.command.PlayerMoveRightCommand;
 import rpg.command.PlayerMoveUpCommand;
 import rpg.entities.player.Player;
+import rpg.entities.player.states.IdleState;
 import rpg.input.InputHandler;
 
 public class RPG extends Application {
@@ -59,10 +60,7 @@ public class RPG extends Application {
     primaryStage.setTitle("RPG");
     primaryStage.setScene(this.scene);
 
-    this.scene.setOnKeyPressed(
-        event -> {
-          handleInput(event.getCode(), elapsedMilliseconds);
-        });
+    handleInput();
 
     primaryStage.show();
 
@@ -86,9 +84,24 @@ public class RPG extends Application {
     gameLoop.start();
   }
 
-  private void handleInput(KeyCode keycode, double elapsedMilliseconds) {
-    Command command = this.inputHandler.handleInput(keycode);
-    command.execute(elapsedMilliseconds);
+  private void handleInput() {
+    this.scene.setOnKeyPressed(
+        event -> {
+          Command command = this.inputHandler.handleInput(event.getCode());
+          command.execute(this.elapsedMilliseconds);
+        });
+
+    this.scene.setOnKeyReleased(
+        event -> {
+          Command command = this.inputHandler.handleInput(event.getCode());
+
+          if (command == this.playerMoveDownCommand
+              || command == this.playerMoveLeftCommand
+              || command == this.playerMoveRightCommand
+              || command == this.playerMoveUpCommand) {
+            this.player.setState(new IdleState());
+          }
+        });
   }
 
   private void render(double elapsedMilliseconds) {}
