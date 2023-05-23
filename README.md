@@ -1,4 +1,54 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/D7hFx6hN)
-# RPG Laboratory
+<h1 align="center">
+  RPG Laboratory
+  <h3 align="center">Hardware Farm</h3>
+</h1>
 
-To compile, run `mvn compile` and to execute, run `mvn javafx:run -q`.
+<!--toc:start-->
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Related](#related)
+- [Contributing](#contributing)
+- [License](#license)
+<!--toc:end-->
+
+## Requirements
+
+- [Apache Maven](https://github.com/apache/maven)
+
+## Installation
+
+```bash
+git clone https://github.com/uni-lu/rpg-windows-tolerates-arch
+```
+
+## Usage
+
+The project includes a [Makefile](Makefile) with the following targets:
+
+- `make all`
+  - Default target that triggers other targets: `clean`, `compile`, and `run`.
+- `make clean`
+  - Remove build artifacts and dependencies.
+- `make compile`
+  - Compile the project.
+- `make run`
+  - Run the project.
+
+## Related
+
+- [Apache Maven](https://github.com/apache/maven)
+  - Software project management and comprehension tool.
+- [Commitizen](http://commitizen.github.io/cz-cli)
+  - Simple commit conventions for internet citizens.
+- [OpenJFX](https://github.com/openjdk/jfx)
+  - JavaFX mainline development.
+
+## Contributing
+
+For information on contributing to this project, please refer to
+[CONTRIBUTING.md](docs/CONTRIBUTING.md).
+
+## License
+
+This project is licensed under [MIT](LICENSE).
