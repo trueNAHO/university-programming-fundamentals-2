@@ -1,6 +1,8 @@
 package rpg.entities.player;
 
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import rpg.entities.player.states.NullState;
 import rpg.entities.player.states.PlayerState;
@@ -14,6 +16,12 @@ public class Player extends Rectangle {
     super(x, y, width, height);
     this.state = new NullState();
     setFill(color);
+  }
+
+  public Player(double x, double y, double width, double height, Image image) {
+    super(x, y, width, height);
+    this.state = new NullState();
+    setFill(new ImagePattern(image));
   }
 
   public void moveDown(double deltaTime) {

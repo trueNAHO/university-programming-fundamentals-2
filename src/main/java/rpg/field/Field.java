@@ -6,7 +6,6 @@ import javafx.scene.paint.Color;
 import rpg.blocks.Block;
 
 public class Field {
-  private final double PLANT_SPACING = 5;
 
   public Block field;
   public List<List<Block>> plants;
@@ -19,18 +18,19 @@ public class Field {
       Color fieldColor,
       Color plantColor,
       int rows,
-      int columns) {
+      int columns,
+      double PLANT_SPACING) {
     this.field = new Block(x, y, width, height, fieldColor);
     this.plants = new ArrayList<>();
 
-    double plantWidth = (width - (PLANT_SPACING * (columns - 1))) / columns;
+    double plantWidth = (width - (5 * (columns - 1))) / columns;
     double plantHeight = (height - (PLANT_SPACING * (rows - 1))) / rows;
 
     for (int i = 0; i < rows; i++) {
       List<Block> row = new ArrayList<>();
 
       for (int j = 0; j < columns; j++) {
-        double plantX = x + j * (plantWidth + PLANT_SPACING);
+        double plantX = x + j * (plantWidth + 5);
         double plantY = y + i * (plantHeight + PLANT_SPACING);
         Block plantBlock = new Block(plantX, plantY, plantWidth, plantHeight, plantColor);
         row.add(plantBlock);

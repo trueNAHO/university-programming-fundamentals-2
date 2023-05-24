@@ -1,6 +1,8 @@
 package rpg.blocks;
 
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
 public class Block extends Rectangle {
@@ -10,6 +12,12 @@ public class Block extends Rectangle {
     super(x, y, width, height);
     this.state = new BlockNullState();
     setFill(color);
+  }
+
+  public Block(double x, double y, double width, double height, Image image) {
+    super(x, y, width, height);
+    this.state = new BlockNullState();
+    setFill(new ImagePattern(image));
   }
 
   public boolean isInteractable() {

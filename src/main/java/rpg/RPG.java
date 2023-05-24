@@ -5,6 +5,8 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -23,26 +25,30 @@ import rpg.field.Field;
 import rpg.input.InputHandler;
 
 public class RPG extends Application {
-  private static final Color BACKGROUND_COLOR = Color.BLUE;
-  private static final Color PLAYER_COLOR = Color.RED;
   private static final double FPS = 24;
-  private static final double PLAYER_HEIGHT = 50;
-  private static final double PLAYER_WIDTH = 50;
+  private static final double PLAYER_HEIGHT = 66;
+  private static final double PLAYER_WIDTH = 38;
   private static final double PLAYER_X = 100;
   private static final double PLAYER_Y = 100;
-  private static final int SCENE_HEIGHT = 800;
-  private static final int SCENE_WIDTH = 800;
+  private static final int SCENE_HEIGHT = 900;
+  private static final int SCENE_WIDTH = 1500;
+  private static final Color BACKGROUND_COLOR = Color.BLUE;
+  private static final Image BACKGROUND_IMAGE =
+      new Image("sprites/background.png", SCENE_WIDTH, SCENE_HEIGHT, false, false);
+  private static final Color PLAYER_COLOR = Color.RED;
+  private static final Image PLAYER_IMAGE = new Image("sprites/GraveRobber.png");
+  private static final Image HOUSE_IMAGE = new Image("sprites/house-002.png");
 
   private static final double MS_PER_UPDATE = 1000 / FPS;
 
   private ArrayList<Block> blocks = new ArrayList<>();
-  private Block house = new Block(200, 200, 50, 50, Color.GREEN);
+  private Block house = new Block(200, 200, 200, 200, HOUSE_IMAGE);
   private DayNightCycle dayNightCycle = new DayNightCycle(true);
-  private Field field = new Field(500, 100, 100, 500, Color.BROWN, Color.YELLOW, 5, 5);
+  private Field field = new Field(300, 500, 500, 250, Color.BROWN, Color.YELLOW, 5, 8, 20);
   private Group root = new Group();
   private InputHandler inputHandler = new InputHandler();
-  private Player player = new Player(PLAYER_X, PLAYER_Y, PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_COLOR);
-  private Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT, BACKGROUND_COLOR);
+  private Player player = new Player(PLAYER_X, PLAYER_Y, PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_IMAGE);
+  private Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
   private double elapsedMilliseconds = 0;
   private double lag = 0;
   private long previousTime = 0;
@@ -59,6 +65,7 @@ public class RPG extends Application {
   @Override
   public void start(Stage primaryStage) {
 
+    root.getChildren().add(new ImageView(BACKGROUND_IMAGE));
     setupDefaultKeyBindings();
     setupBlocks();
     setupPlayer();
