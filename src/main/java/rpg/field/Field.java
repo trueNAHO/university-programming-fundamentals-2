@@ -12,6 +12,7 @@ public class Field {
   public Block field;
   public List<List<Plant>> plants;
   private int rows;
+  private double plantSpacing;
   private int columns;
 
   /*
@@ -55,21 +56,22 @@ public class Field {
       Image plantImage,
       int rows,
       int columns,
-      double PLANT_SPACING) {
+      double plantSpacing) {
     this.field = new Block(x, y, width, height, fieldImage);
+    this.plantSpacing = plantSpacing;
     this.plants = new ArrayList<>();
     this.rows = rows;
     this.columns = columns;
 
-    double plantWidth = (width - (5 * (columns - 1))) / columns;
-    double plantHeight = (height - (PLANT_SPACING * (rows - 1))) / rows;
+    double plantWidth = (width - (this.plantSpacing * (columns - 1))) / columns;
+    double plantHeight = (height - (this.plantSpacing * (rows - 1))) / rows;
 
     for (int i = 0; i < rows; i++) {
       List<Plant> row = new ArrayList<>();
 
       for (int j = 0; j < columns; j++) {
-        double plantX = x + j * (plantWidth + 5);
-        double plantY = y + i * (plantHeight + PLANT_SPACING);
+        double plantX = x + j * (plantWidth + this.plantSpacing);
+        double plantY = y + i * (plantHeight + this.plantSpacing);
         Plant plantBlock = new Plant(plantX, plantY, plantWidth, plantHeight, "cpu", plantImage);
         row.add(plantBlock);
       }
