@@ -78,6 +78,14 @@ public class Field {
     }
   }
 
+  public void remove(int x, int y) {
+    this.plants.get(x).get(y).setState(new BlockNullState());
+  }
+
+  public void set(int x, int y, String type) {
+    this.plants.get(x).get(y).set(type, "1");
+  }
+
   public void grow(int x, int y) {
     this.plants.get(x).get(y).grow();
   }

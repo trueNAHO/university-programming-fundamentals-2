@@ -18,6 +18,7 @@ import rpg.command.PlayerMoveDownCommand;
 import rpg.command.PlayerMoveLeftCommand;
 import rpg.command.PlayerMoveRightCommand;
 import rpg.command.PlayerMoveUpCommand;
+import rpg.command.fieldAddCommand;
 import rpg.command.fieldGrowAllFieldCommand;
 import rpg.day_night_cycle.DayNightCycle;
 import rpg.entities.player.Player;
@@ -61,6 +62,7 @@ public class RPG extends Application {
   private Command playerMoveRightCommand = new PlayerMoveRightCommand(player);
   private Command playerMoveUpCommand = new PlayerMoveUpCommand(player);
   private Command fieldGrowAllFieldCommand = new fieldGrowAllFieldCommand(field);
+  private Command fieldAddCommand = new fieldAddCommand(field);
 
   public static void main(String[] args) {
     launch(args);
@@ -144,6 +146,7 @@ public class RPG extends Application {
     this.inputHandler.mapInput(KeyCode.RIGHT, this.playerMoveRightCommand);
     this.inputHandler.mapInput(KeyCode.UP, this.playerMoveUpCommand);
     this.inputHandler.mapInput(KeyCode.G, this.fieldGrowAllFieldCommand);
+    this.inputHandler.mapInput(KeyCode.A, this.fieldAddCommand);
   }
 
   private void setupPlayer() {
