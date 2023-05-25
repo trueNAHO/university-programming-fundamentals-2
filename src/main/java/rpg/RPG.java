@@ -18,6 +18,7 @@ import rpg.command.PlayerMoveDownCommand;
 import rpg.command.PlayerMoveLeftCommand;
 import rpg.command.PlayerMoveRightCommand;
 import rpg.command.PlayerMoveUpCommand;
+import rpg.command.fieldGrowAllFieldCommand;
 import rpg.day_night_cycle.DayNightCycle;
 import rpg.entities.player.Player;
 import rpg.entities.player.states.IdleState;
@@ -38,13 +39,15 @@ public class RPG extends Application {
   private static final Color PLAYER_COLOR = Color.RED;
   private static final Image PLAYER_IMAGE = new Image("sprites/GraveRobber.png");
   private static final Image HOUSE_IMAGE = new Image("sprites/house-002.png");
+  private static final Image PLANT_IMAGE = new Image("sprites/TEST.png");
+  private static final Image FIEL_IMAGE = new Image("sprites/field.png");
 
   private static final double MS_PER_UPDATE = 1000 / FPS;
 
   private ArrayList<Block> blocks = new ArrayList<>();
   private Block house = new Block(200, 200, 200, 200, HOUSE_IMAGE);
-  private DayNightCycle dayNightCycle = new DayNightCycle(true);
-  private Field field = new Field(300, 500, 500, 250, Color.BROWN, Color.YELLOW, 5, 8, 20);
+  private Field field = new Field(300, 500, 500, 250, FIEL_IMAGE, PLANT_IMAGE, 5, 8, 20);
+  private DayNightCycle dayNightCycle = new DayNightCycle(true, this.field);
   private Group root = new Group();
   private InputHandler inputHandler = new InputHandler();
   private Player player = new Player(PLAYER_X, PLAYER_Y, PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_IMAGE);
@@ -57,6 +60,7 @@ public class RPG extends Application {
   private Command playerMoveLeftCommand = new PlayerMoveLeftCommand(player);
   private Command playerMoveRightCommand = new PlayerMoveRightCommand(player);
   private Command playerMoveUpCommand = new PlayerMoveUpCommand(player);
+  private Command fieldGrowAllFieldCommand = new fieldGrowAllFieldCommand(field);
 
   public static void main(String[] args) {
     launch(args);
@@ -139,6 +143,7 @@ public class RPG extends Application {
     this.inputHandler.mapInput(KeyCode.LEFT, this.playerMoveLeftCommand);
     this.inputHandler.mapInput(KeyCode.RIGHT, this.playerMoveRightCommand);
     this.inputHandler.mapInput(KeyCode.UP, this.playerMoveUpCommand);
+    this.inputHandler.mapInput(KeyCode.G, this.fieldGrowAllFieldCommand);
   }
 
   private void setupPlayer() {

@@ -2,14 +2,19 @@ package rpg.field;
 
 import java.util.ArrayList;
 import java.util.List;
-import javafx.scene.paint.Color;
+import javafx.scene.image.Image;
 import rpg.blocks.Block;
+import rpg.blocks.BlockNullState;
+import rpg.plants.Plant;
 
 public class Field {
 
   public Block field;
-  public List<List<Block>> plants;
+  public List<List<Plant>> plants;
+  private int rows;
+  private int columns;
 
+  /*
   public Field(
       double x,
       double y,
@@ -37,6 +42,63 @@ public class Field {
       }
 
       plants.add(row);
+    }
+  }
+  */
+
+  public Field(
+      double x,
+      double y,
+      double width,
+      double height,
+      Image fieldImage,
+      Image plantImage,
+      int rows,
+      int columns,
+      double PLANT_SPACING) {
+    this.field = new Block(x, y, width, height, fieldImage);
+    this.plants = new ArrayList<>();
+    this.rows = rows;
+    this.columns = columns;
+
+    double plantWidth = (width - (5 * (columns - 1))) / columns;
+    double plantHeight = (height - (PLANT_SPACING * (rows - 1))) / rows;
+
+    for (int i = 0; i < rows; i++) {
+      List<Plant> row = new ArrayList<>();
+
+      for (int j = 0; j < columns; j++) {
+        double plantX = x + j * (plantWidth + 5);
+        double plantY = y + i * (plantHeight + PLANT_SPACING);
+        Plant plantBlock = new Plant(plantX, plantY, plantWidth, plantHeight, "cpu", plantImage);
+        row.add(plantBlock);
+      }
+
+      plants.add(row);
+    }
+  }
+
+  public void grow(int x, int y) {
+    this.plants.get(x).get(y).grow();
+  }
+
+  public void reset(int x, int y) {
+    this.plants.get(x).get(y).reset();
+  }
+
+  public void growAllField() {
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < columns; j++) {
+        grow(i, j);
+      }
+    }
+  }
+
+  public void resetAllField() {
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < columns; j++) {
+        reset(i, j);
+      }
     }
   }
 

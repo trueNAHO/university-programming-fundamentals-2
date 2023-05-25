@@ -30,6 +30,10 @@ public class Block extends Rectangle {
     this.state.enter();
   }
 
+  public void changeImage(Image image) {
+    setFill(new ImagePattern(image));
+  }
+
   public void update(double deltaTime) {
     this.state.update();
   }
