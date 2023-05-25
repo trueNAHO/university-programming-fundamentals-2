@@ -1,5 +1,7 @@
 package rpg.day_night_cycle;
 
+import rpg.field.Field;
+
 public class DayNightCycle {
   private static final double DAY_DURATION_MS = 10 * 1000;
   private static final double NIGHT_DURATION_MS = 5 * 1000;
