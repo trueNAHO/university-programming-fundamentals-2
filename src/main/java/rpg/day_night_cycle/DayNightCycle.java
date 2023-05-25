@@ -9,14 +9,12 @@ public class DayNightCycle {
   public boolean isDay;
   public double dayDuration;
   public double nightDuration;
-  public final long startTime;
   private Field field;
 
   public DayNightCycle(boolean isDay, Field field) {
     this.dayDuration = 0;
     this.isDay = isDay;
     this.nightDuration = 0;
-    this.startTime = System.currentTimeMillis();
     this.field = field;
   }
 
