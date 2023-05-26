@@ -15,38 +15,6 @@ public class Field {
   private double plantSpacing;
   private int columns;
 
-  /*
-  public Field(
-      double x,
-      double y,
-      double width,
-      double height,
-      Color fieldColor,
-      Color plantColor,
-      int rows,
-      int columns,
-      double PLANT_SPACING) {
-    this.field = new Block(x, y, width, height, fieldColor);
-    this.plants = new ArrayList<>();
-
-    double plantWidth = (width - (5 * (columns - 1))) / columns;
-    double plantHeight = (height - (PLANT_SPACING * (rows - 1))) / rows;
-
-    for (int i = 0; i < rows; i++) {
-      List<Block> row = new ArrayList<>();
-
-      for (int j = 0; j < columns; j++) {
-        double plantX = x + j * (plantWidth + 5);
-        double plantY = y + i * (plantHeight + PLANT_SPACING);
-        Block plantBlock = new Block(plantX, plantY, plantWidth, plantHeight, plantColor);
-        row.add(plantBlock);
-      }
-
-      plants.add(row);
-    }
-  }
-  */
-
   public Field(
       double x,
       double y,
