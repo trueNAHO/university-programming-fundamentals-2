@@ -7,7 +7,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
 public class Block extends Rectangle {
-  public Label textBox = new Label();
+  public final Label textBox;
 
   private BlockState state;
   private static final String TEXT_BOX_TEXT = "Interactable";
@@ -19,6 +19,7 @@ public class Block extends Rectangle {
 
     this.textBox = new Label();
     this.textBox.relocate(x, y);
+    this.textBox.setStyle("-fx-background-color: white;");
     this.textBox.setText(TEXT_BOX_TEXT);
     this.textBox.toFront();
   }
@@ -27,6 +28,12 @@ public class Block extends Rectangle {
     super(x, y, width, height);
     this.state = new BlockNullState();
     setFill(new ImagePattern(image));
+
+    this.textBox = new Label();
+    this.textBox.relocate(x, y);
+    this.textBox.setStyle("-fx-background-color: white;");
+    this.textBox.setText(TEXT_BOX_TEXT);
+    this.textBox.toFront();
   }
 
   public boolean isInteractable() {
@@ -34,9 +41,9 @@ public class Block extends Rectangle {
   }
 
   public void setState(BlockState newState) {
-    this.state.exit();
+    this.state.exit(this.textBox);
     this.state = newState;
-    this.state.enter();
+    this.state.enter(this.textBox);
   }
 
   public void changeImage(Image image) {

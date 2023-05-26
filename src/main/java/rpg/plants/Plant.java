@@ -34,17 +34,17 @@ public class Plant extends Block {
     if (this.stage > MAX_STAGES && newStage > MAX_STAGES) return;
 
     this.stage = newStage;
-    this.changeImage();
+    this.SetImage();
   }
 
   public void setType(String newType) {
     if (newType == this.type) return;
 
     this.type = newType;
-    this.changeImage();
+    this.SetImage();
   }
 
-  public void changeImage() {
+  public void SetImage() {
     String stageValue = this.stage <= MAX_STAGES ? String.valueOf(this.stage) : MAX_STAGE_VALUE;
 
     this.image =

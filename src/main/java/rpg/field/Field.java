@@ -48,8 +48,9 @@ public class Field {
     }
   }
 
-  public void remove(int x, int y) {
-    this.plants.get(x).get(y).setState(new BlockNullState());
+  public void remove(Block block) {
+    block.setState(new BlockNullState());
+    System.out.println("Fuuck you");
   }
 
   public void set(int x, int y, String type) {

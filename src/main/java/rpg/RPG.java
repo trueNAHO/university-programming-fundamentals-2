@@ -26,6 +26,7 @@ import rpg.entities.player.Player;
 import rpg.entities.player.states.IdleState;
 import rpg.field.Field;
 import rpg.input.InputHandler;
+import rpg.plants.Plant;
 
 public class RPG extends Application {
   private static final double FPS = 24;
@@ -144,6 +145,7 @@ public class RPG extends Application {
 
     Label newTextBox = new Label();
     newTextBox.relocate(100, 100);
+    newTextBox.setStyle("-fx-background-color: white;");
     newTextBox.setText("This is a random text box.");
     newTextBox.toFront();
     this.root.getChildren().add(newTextBox);
@@ -166,6 +168,9 @@ public class RPG extends Application {
     for (Block block : this.blocks) {
       if (player.intersects(block.getBoundsInLocal())) {
         block.setState(new BlockInteractableState());
+        if (block instanceof Plant) {
+          this.field.remove(block);
+        }
       } else if (block.isInteractable()) {
         block.setState(new BlockIdleState());
       }

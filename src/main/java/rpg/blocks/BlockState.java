@@ -1,9 +1,11 @@
 package rpg.blocks;
 
+import javafx.scene.control.Label;
+
 public interface BlockState {
-  void enter();
+  void enter(Label textBox);
 
   void update();
 
-  void exit();
+  void exit(Label textBox);
 }
