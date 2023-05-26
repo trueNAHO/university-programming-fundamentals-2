@@ -11,6 +11,6 @@ public class fieldGrowAllFieldCommand implements Command {
 
   @Override
   public void execute(double deltaTime) {
-    field.resetAllField();
+    this.field.resetAllField();
   }
 }

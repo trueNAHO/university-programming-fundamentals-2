@@ -3,8 +3,8 @@ package rpg.day_night_cycle;
 import rpg.field.Field;
 
 public class DayNightCycle {
-  private static final double DAY_DURATION_MS = 10 * 1000;
-  private static final double NIGHT_DURATION_MS = 5 * 1000;
+  private static final double DAY_DURATION_MS = 2 * 1000;
+  private static final double NIGHT_DURATION_MS = 2 * 1000;
 
   public boolean isDay;
   public double dayDuration;
@@ -18,20 +18,17 @@ public class DayNightCycle {
     this.field = field;
   }
 
-  public void transitionToDay(double deltaTime) {
+  public void transitionToDay() {
     this.isDay = true;
     this.nightDuration = 0;
-    this.dayDuration = deltaTime;
-    // System.out.println("new day");
+    this.dayDuration = 0;
     this.field.growAllField();
   }
 
-  public void transitionToNight(double deltaTime) {
+  public void transitionToNight() {
     this.isDay = false;
     this.dayDuration = 0;
-    this.nightDuration = deltaTime;
-    // System.out.println("new night");
-    this.field.growAllField();
+    this.nightDuration = 0;
   }
 
   public void update(double deltaTime) {
@@ -39,7 +36,7 @@ public class DayNightCycle {
       double newDayDuration = this.dayDuration + deltaTime;
 
       if (newDayDuration > DAY_DURATION_MS) {
-        transitionToNight(newDayDuration - DAY_DURATION_MS);
+        transitionToNight();
       } else {
         this.dayDuration = newDayDuration;
       }
@@ -47,7 +44,7 @@ public class DayNightCycle {
       double newNightDuration = this.nightDuration + deltaTime;
 
       if (newNightDuration > NIGHT_DURATION_MS) {
-        transitionToDay(newNightDuration - NIGHT_DURATION_MS);
+        transitionToDay();
       } else {
         this.nightDuration = newNightDuration;
       }

@@ -53,7 +53,8 @@ public class Field {
   }
 
   public void set(int x, int y, String type) {
-    this.plants.get(x).get(y).set(type, "1");
+    this.plants.get(x).get(y).setStage(1);
+    this.plants.get(x).get(y).setType(type);
   }
 
   public void grow(int x, int y) {
@@ -75,7 +76,7 @@ public class Field {
   public void resetAllField() {
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < columns; j++) {
-        reset(i, j);
+        this.reset(i, j);
       }
     }
   }
