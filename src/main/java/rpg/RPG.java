@@ -5,6 +5,7 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -140,6 +141,12 @@ public class RPG extends Application {
       this.root.getChildren().add(block.textBox);
       block.textBox.toFront();
     }
+
+    Label newTextBox = new Label();
+    newTextBox.relocate(100, 100);
+    newTextBox.setText("This is a random text box.");
+    newTextBox.toFront();
+    this.root.getChildren().add(newTextBox);
   }
 
   private void setupDefaultKeyBindings() {
