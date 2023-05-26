@@ -25,6 +25,7 @@ import rpg.entities.player.Player;
 import rpg.entities.player.states.IdleState;
 import rpg.field.Field;
 import rpg.input.InputHandler;
+import rpg.inventory.Inventory;
 
 public class RPG extends Application {
   private static final double FPS = 24;
@@ -42,11 +43,14 @@ public class RPG extends Application {
   private static final Image HOUSE_IMAGE =
       new Image("sprites/house-002.png", 200, 200, false, false);
   private static final Image PLANT_IMAGE = new Image("sprites/TEST.png");
+  private static final ImageView PLANT_IMAGE_VIEWER = new ImageView(PLANT_IMAGE);
   private static final Image FIEL_IMAGE = new Image("sprites/field.png");
+  private static final ImageView FIEL_IMAGE_VIEWER = new ImageView(FIEL_IMAGE);
 
   private static final double MS_PER_UPDATE = 1000 / FPS;
 
   private ArrayList<Block> blocks = new ArrayList<>();
+  private Inventory inventory = new Inventory();
   private Block house = new Block(200, 200, 200, 200, HOUSE_IMAGE);
   private Field field = new Field(300, 500, 500, 250, FIEL_IMAGE, PLANT_IMAGE, 5, 8, 20);
   private Group root = new Group();
@@ -133,6 +137,15 @@ public class RPG extends Application {
     for (int i = 0; i < this.field.plants.size(); i++) {
       for (int j = 0; j < this.field.plants.get(0).size(); j++) {
         this.blocks.add(this.field.plants.get(i).get(j));
+      }
+    }
+
+    this.blocks.add(this.inventory.inventory);
+
+    for (int i = 0; i < this.inventory.items.size(); i++) {
+      for (int j = 0; j < this.inventory.items.get(0).size(); j++) {
+        this.blocks.add(this.inventory.slots.get(i).get(j));
+        this.blocks.add(this.inventory.items.get(i).get(j));
       }
     }
 
@@ -223,5 +236,6 @@ public class RPG extends Application {
     this.player.update(elapsedMilliseconds);
     this.playerCollideBlocks();
     this.field.update(elapsedMilliseconds);
+    this.inventory.update(elapsedMilliseconds);
   }
 }

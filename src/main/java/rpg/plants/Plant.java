@@ -49,7 +49,7 @@ public class Plant extends Block {
 
     this.image =
         new Image(
-            ("sprites/" + this.type + "/" + type + "_stage_" + stageValue + ".png"),
+            ("sprites/" + this.type + "/" + this.type + "_stage_" + stageValue + ".png"),
             this.width,
             this.height,
             false,
