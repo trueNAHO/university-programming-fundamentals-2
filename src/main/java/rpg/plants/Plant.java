@@ -23,9 +23,7 @@ public class Plant extends Block {
   }
 
   public void grow() {
-    if (this.stage != MAX_STAGES) {
-      this.setStage(this.stage + 1);
-    }
+    this.setStage(this.stage + 1);
   }
 
   public void reset() {
@@ -33,8 +31,6 @@ public class Plant extends Block {
   }
 
   public void setStage(int newStage) {
-    if (newStage > MAX_STAGES) return;
-
     this.stage = newStage;
     this.changeImage();
   }
@@ -45,7 +41,7 @@ public class Plant extends Block {
   }
 
   public void changeImage() {
-    String stageValue = this.stage < MAX_STAGES ? String.valueOf(this.stage) : MAX_STAGE_VALUE;
+    String stageValue = this.stage <= MAX_STAGES ? String.valueOf(this.stage) : MAX_STAGE_VALUE;
 
     this.image =
         new Image(
