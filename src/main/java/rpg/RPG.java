@@ -54,8 +54,7 @@ public class RPG extends Application {
   private Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
   private double elapsedMilliseconds = 0;
   private double lag = 0;
-  private int gameLoopIterationsToSkip = 10;
-  private long previousTime = 0;
+  private long previousTime = System.nanoTime();
 
   private DayNightCycle dayNightCycle = new DayNightCycle(true, this.field);
 
@@ -88,14 +87,6 @@ public class RPG extends Application {
         new AnimationTimer() {
           @Override
           public void handle(long currentTime) {
-
-            // This hack fixes JavaFX' problem of considering startup
-            // time as runtime.
-            if (gameLoopIterationsToSkip > 0) {
-              gameLoopIterationsToSkip--;
-              return;
-            }
-
             elapsedMilliseconds = (currentTime - previousTime) / 1e6;
             previousTime = currentTime;
             lag += elapsedMilliseconds;
