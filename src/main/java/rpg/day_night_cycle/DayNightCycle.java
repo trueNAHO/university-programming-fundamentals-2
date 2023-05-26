@@ -18,17 +18,17 @@ public class DayNightCycle {
     this.field = field;
   }
 
-  public void transitionToDay() {
+  public void transitionToDay(double deltaTime) {
     this.isDay = true;
     this.nightDuration = 0;
-    this.dayDuration = 0;
+    this.dayDuration = deltaTime;
     this.field.growAllField();
   }
 
-  public void transitionToNight() {
+  public void transitionToNight(double deltaTime) {
     this.isDay = false;
     this.dayDuration = 0;
-    this.nightDuration = 0;
+    this.nightDuration = deltaTime;
   }
 
   public void update(double deltaTime) {
@@ -36,7 +36,7 @@ public class DayNightCycle {
       double newDayDuration = this.dayDuration + deltaTime;
 
       if (newDayDuration > DAY_DURATION_MS) {
-        transitionToNight();
+        transitionToNight(newDayDuration - DAY_DURATION_MS);
       } else {
         this.dayDuration = newDayDuration;
       }
@@ -44,7 +44,7 @@ public class DayNightCycle {
       double newNightDuration = this.nightDuration + deltaTime;
 
       if (newNightDuration > NIGHT_DURATION_MS) {
-        transitionToDay();
+        transitionToDay(newNightDuration - NIGHT_DURATION_MS);
       } else {
         this.nightDuration = newNightDuration;
       }
