@@ -48,14 +48,16 @@ public class RPG extends Application {
   private ArrayList<Block> blocks = new ArrayList<>();
   private Block house = new Block(200, 200, 200, 200, HOUSE_IMAGE);
   private Field field = new Field(300, 500, 500, 250, FIEL_IMAGE, PLANT_IMAGE, 5, 8, 20);
-  private DayNightCycle dayNightCycle = new DayNightCycle(true, this.field);
   private Group root = new Group();
   private InputHandler inputHandler = new InputHandler();
   private Player player = new Player(PLAYER_X, PLAYER_Y, PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_IMAGE);
   private Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
   private double elapsedMilliseconds = 0;
   private double lag = 0;
+  private int gameLoopIterationsToSkip = 10;
   private long previousTime = 0;
+
+  private DayNightCycle dayNightCycle = new DayNightCycle(true, this.field);
 
   private Command playerMoveDownCommand = new PlayerMoveDownCommand(player);
   private Command playerMoveLeftCommand = new PlayerMoveLeftCommand(player);
@@ -86,6 +88,14 @@ public class RPG extends Application {
         new AnimationTimer() {
           @Override
           public void handle(long currentTime) {
+
+            // This hack fixes JavaFX' problem of considering startup
+            // time as runtime.
+            if (gameLoopIterationsToSkip > 0) {
+              gameLoopIterationsToSkip--;
+              return;
+            }
+
             elapsedMilliseconds = (currentTime - previousTime) / 1e6;
             previousTime = currentTime;
             lag += elapsedMilliseconds;
