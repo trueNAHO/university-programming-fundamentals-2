@@ -31,11 +31,15 @@ public class Plant extends Block {
   }
 
   public void setStage(int newStage) {
+    if (this.stage > MAX_STAGES && newStage > MAX_STAGES) return;
+
     this.stage = newStage;
     this.changeImage();
   }
 
   public void setType(String newType) {
+    if (newType == this.type) return;
+
     this.type = newType;
     this.changeImage();
   }
