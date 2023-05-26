@@ -8,8 +8,12 @@ clean:
 	mvn clean
 
 # Compile the project.
-compile: clean
+compile: format clean
 	mvn compile
+
+# Format the source code.
+format:
+	mvn spotless:apply
 
 # Run the project.
 run: compile
