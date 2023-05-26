@@ -70,7 +70,6 @@ public class RPG extends Application {
 
   @Override
   public void start(Stage primaryStage) {
-
     root.getChildren().add(new ImageView(BACKGROUND_IMAGE));
     setupDefaultKeyBindings();
     setupBlocks();
