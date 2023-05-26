@@ -39,18 +39,19 @@ public class RPG extends Application {
       new Image("sprites/background.png", SCENE_WIDTH, SCENE_HEIGHT, false, false);
   private static final Color PLAYER_COLOR = Color.RED;
   private static final Image PLAYER_IMAGE = new Image("sprites/GraveRobber.png");
-  private static final Image HOUSE_IMAGE = new Image("sprites/house-002.png");
+  private static final Image HOUSE_IMAGE =
+      new Image("sprites/house-002.png", 200, 200, false, false);
   private static final Image PLANT_IMAGE = new Image("sprites/TEST.png");
   private static final Image FIEL_IMAGE = new Image("sprites/field.png");
 
   private static final double MS_PER_UPDATE = 1000 / FPS;
 
   private ArrayList<Block> blocks = new ArrayList<>();
-  private Block house = new Block(200, 200, 200, 200, HOUSE_IMAGE);
+  private Block house = new Block(200, 200, 200, 200, Color.BLUE);
   private Field field = new Field(300, 500, 500, 250, FIEL_IMAGE, PLANT_IMAGE, 5, 8, 20);
   private Group root = new Group();
   private InputHandler inputHandler = new InputHandler();
-  private Player player = new Player(PLAYER_X, PLAYER_Y, PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_IMAGE);
+  private Player player = new Player(PLAYER_X, PLAYER_Y, PLAYER_WIDTH, PLAYER_HEIGHT, Color.RED);
   private Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
   private double elapsedMilliseconds = 0;
   private double lag = 0;
@@ -153,9 +154,41 @@ public class RPG extends Application {
     this.root.getChildren().add(this.player);
   }
 
+  private void borderControl(Block block) {
+    double playerPosX = player.getX();
+    double playerPosY = player.getY();
+    double blockMinX = block.getBoundsInLocal().getMinX();
+    double blockMinY = block.getBoundsInLocal().getMinY();
+    double blockMaxX = block.getBoundsInLocal().getMaxX();
+    double blockMaxY = block.getBoundsInLocal().getMaxY();
+
+    while (player.intersects(block.getBoundsInLocal())) {
+      if (playerPosX + PLAYER_WIDTH >= blockMaxX) {
+        player.setX(blockMaxX + 1 * MS_PER_UPDATE);
+        player.setState(new IdleState());
+        break;
+      } else if (playerPosY + PLAYER_HEIGHT >= blockMaxY) {
+        player.setY(blockMaxY + 1 * MS_PER_UPDATE);
+        player.setState(new IdleState());
+        break;
+      } else if (playerPosX <= blockMinX) {
+        player.setX(blockMinX - 1 * MS_PER_UPDATE);
+        player.setState(new IdleState());
+        break;
+      } else if (playerPosY <= blockMinY) {
+        player.setY(blockMinY - 1 * MS_PER_UPDATE);
+        player.setState(new IdleState());
+        break;
+      } 
+    }
+  }
+
   private void playerCollideBlocks() {
     for (Block block : this.blocks) {
       if (player.intersects(block.getBoundsInLocal())) {
+        if (block.equals(house)) {
+          this.borderControl(house);
+        }
         block.setState(new BlockInteractableState());
       } else if (block.isInteractable()) {
         block.setState(new BlockIdleState());
