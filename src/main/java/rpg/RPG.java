@@ -137,6 +137,8 @@ public class RPG extends Application {
 
     for (Block block : this.blocks) {
       this.root.getChildren().add(block);
+      this.root.getChildren().add(block.textBox);
+      block.textBox.toFront();
     }
   }
 
