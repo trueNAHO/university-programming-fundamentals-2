@@ -169,7 +169,8 @@ public class RPG extends Application {
       if (player.intersects(block.getBoundsInLocal())) {
         block.setState(new BlockInteractableState());
         if (block instanceof Plant) {
-          this.field.remove(block);
+          Plant plant = (Plant) block;
+          this.field.remove(plant);
         }
       } else if (block.isInteractable()) {
         block.setState(new BlockIdleState());

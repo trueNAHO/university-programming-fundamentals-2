@@ -48,9 +48,10 @@ public class Field {
     }
   }
 
-  public void remove(Block block) {
+  public void remove(Plant block) {
     block.setState(new BlockNullState());
     System.out.println("Fuuck you");
+    block.setType("empty");
   }
 
   public void set(int x, int y, String type) {
