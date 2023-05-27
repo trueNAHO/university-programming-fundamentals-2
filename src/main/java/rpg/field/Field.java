@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.image.Image;
 import rpg.blocks.Block;
-import rpg.blocks.BlockNullState;
 import rpg.plants.Plant;
 
 public class Field {
@@ -49,7 +48,7 @@ public class Field {
   }
 
   public void remove(int x, int y) {
-    this.plants.get(x).get(y).setState(new BlockNullState());
+    this.plants.get(x).get(y).remove();
   }
 
   public void set(int x, int y, String type) {
