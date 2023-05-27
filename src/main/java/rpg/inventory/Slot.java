@@ -15,7 +15,7 @@ public class Slot extends Block {
   }
 
   public void select() {
-    changeImage(new Image("sprites/slot/slot_stage_1.png"));
+    changeImage(new Image("sprites/slot/slot_stage_2.png"));
   }
 
   public void unselect() {

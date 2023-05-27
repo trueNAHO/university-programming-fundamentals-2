@@ -14,6 +14,10 @@ import rpg.blocks.Block;
 import rpg.blocks.BlockIdleState;
 import rpg.blocks.BlockInteractableState;
 import rpg.command.Command;
+import rpg.command.InventorySelectDownCommand;
+import rpg.command.InventorySelectLeftCommand;
+import rpg.command.InventorySelectRightCommand;
+import rpg.command.InventorySelectUpCommand;
 import rpg.command.PlayerMoveDownCommand;
 import rpg.command.PlayerMoveLeftCommand;
 import rpg.command.PlayerMoveRightCommand;
@@ -26,6 +30,7 @@ import rpg.entities.player.states.IdleState;
 import rpg.field.Field;
 import rpg.input.InputHandler;
 import rpg.inventory.Inventory;
+import rpg.inventory.states.InventoryIdleState;
 
 public class RPG extends Application {
   private static final double FPS = 24;
@@ -69,6 +74,10 @@ public class RPG extends Application {
   private Command playerMoveUpCommand = new PlayerMoveUpCommand(player);
   private Command fieldGrowAllFieldCommand = new fieldGrowAllFieldCommand(field);
   private Command fieldAddCommand = new fieldAddCommand(field);
+  private Command InventorySelectDownCommand = new InventorySelectDownCommand(inventory);
+  private Command InventorySelectLeftCommand = new InventorySelectLeftCommand(inventory);
+  private Command InventorySelectRightCommand = new InventorySelectRightCommand(inventory);
+  private Command InventorySelectUpCommand = new InventorySelectUpCommand(inventory);
 
   public static void main(String[] args) {
     launch(args);
@@ -122,8 +131,13 @@ public class RPG extends Application {
           if (command == this.playerMoveDownCommand
               || command == this.playerMoveLeftCommand
               || command == this.playerMoveRightCommand
-              || command == this.playerMoveUpCommand) {
+              || command == this.playerMoveUpCommand
+              || command == this.InventorySelectDownCommand
+              || command == this.InventorySelectLeftCommand
+              || command == this.InventorySelectRightCommand
+              || command == this.InventorySelectUpCommand) {
             this.player.setState(new IdleState());
+            this.inventory.setState(new InventoryIdleState());
           }
         });
   }
@@ -159,6 +173,12 @@ public class RPG extends Application {
     this.inputHandler.mapInput(KeyCode.LEFT, this.playerMoveLeftCommand);
     this.inputHandler.mapInput(KeyCode.RIGHT, this.playerMoveRightCommand);
     this.inputHandler.mapInput(KeyCode.UP, this.playerMoveUpCommand);
+
+    this.inputHandler.mapInput(KeyCode.S, this.InventorySelectDownCommand);
+    this.inputHandler.mapInput(KeyCode.Q, this.InventorySelectLeftCommand);
+    this.inputHandler.mapInput(KeyCode.D, this.InventorySelectRightCommand);
+    this.inputHandler.mapInput(KeyCode.Z, this.InventorySelectUpCommand);
+
     this.inputHandler.mapInput(KeyCode.G, this.fieldGrowAllFieldCommand);
     this.inputHandler.mapInput(KeyCode.A, this.fieldAddCommand);
   }
