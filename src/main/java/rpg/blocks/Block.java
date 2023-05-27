@@ -22,6 +22,7 @@ public class Block extends Rectangle {
     this.textBox.setStyle("-fx-background-color: white;");
     this.textBox.setText(TEXT_BOX_TEXT);
     this.textBox.toFront();
+    this.textBox.setVisible(false);
   }
 
   public Block(double x, double y, double width, double height, Image image) {
@@ -34,6 +35,7 @@ public class Block extends Rectangle {
     this.textBox.setStyle("-fx-background-color: white;");
     this.textBox.setText(TEXT_BOX_TEXT);
     this.textBox.toFront();
+    this.textBox.setVisible(false);
   }
 
   public boolean isInteractable() {

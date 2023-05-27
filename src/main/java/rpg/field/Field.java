@@ -50,7 +50,6 @@ public class Field {
 
   public void remove(Plant block) {
     block.setState(new BlockNullState());
-    System.out.println("Fuuck you");
     block.setType("empty");
   }
 

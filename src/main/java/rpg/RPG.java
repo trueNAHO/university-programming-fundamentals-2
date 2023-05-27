@@ -198,7 +198,36 @@ public class RPG extends Application {
     this.root.getChildren().add(this.player);
   }
 
-  private void borderControl(Block block) {
+  // private void borderControl() {
+  //   double playerPosX = player.getX();
+  //   double playerPosY = player.getY();
+  //   System.out.println(playerPosX + "     " + playerPosY);
+
+  //   while (player.intersects(scene.getBoundsInLocal())) {
+  //     if (playerPosY == 0) {
+  //       player.setY(player.getY() + 10);
+  //       player.setState(new IdleState());
+  //       System.out.println("WORKING!!!!!!");
+  //     }
+  //     if (playerPosY == SCENE_HEIGHT) {
+  //       player.setY(player.getY() - 10);
+  //       player.setState(new IdleState());
+  //       System.out.println("WORKING!!!!!!");
+  //     }
+  //     if (playerPosX == 0) {
+  //       player.setX(player.getX() + 10);
+  //       player.setState(new IdleState());
+  //       System.out.println("WORKING!!!!!!");
+  //     }
+  //     if (playerPosX == SCENE_WIDTH) {
+  //       player.setX(player.getX() - 10);
+  //       player.setState(new IdleState());
+  //       System.out.println("WORKING!!!!!!");
+  //     }
+  //   }
+  // }
+
+  private void houseCollision(Block block) {
     double playerPosX = player.getX();
     double playerPosY = player.getY();
     double blockMinX = block.getBoundsInLocal().getMinX();
@@ -250,10 +279,11 @@ public class RPG extends Application {
   }
 
   private void playerCollideBlocks() {
+    // this.borderControl();
     for (Block block : this.blocks) {
       if (player.intersects(block.getBoundsInLocal())) {
         if (block.equals(house)) {
-          this.borderControl(house);
+          this.houseCollision(house);
         }
         block.setState(new BlockInteractableState());
         if (block instanceof Plant) {
