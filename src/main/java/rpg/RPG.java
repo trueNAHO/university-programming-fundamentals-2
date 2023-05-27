@@ -15,6 +15,10 @@ import rpg.blocks.Block;
 import rpg.blocks.BlockIdleState;
 import rpg.blocks.BlockInteractableState;
 import rpg.command.Command;
+import rpg.command.InventorySelectDownCommand;
+import rpg.command.InventorySelectLeftCommand;
+import rpg.command.InventorySelectRightCommand;
+import rpg.command.InventorySelectUpCommand;
 import rpg.command.PlayerMoveDownCommand;
 import rpg.command.PlayerMoveLeftCommand;
 import rpg.command.PlayerMoveRightCommand;
@@ -26,6 +30,8 @@ import rpg.entities.player.Player;
 import rpg.entities.player.states.IdleState;
 import rpg.field.Field;
 import rpg.input.InputHandler;
+import rpg.inventory.Inventory;
+import rpg.inventory.states.InventoryIdleState;
 import rpg.plants.Plant;
 
 public class RPG extends Application {
@@ -41,13 +47,17 @@ public class RPG extends Application {
       new Image("sprites/background.png", SCENE_WIDTH, SCENE_HEIGHT, false, false);
   private static final Color PLAYER_COLOR = Color.RED;
   private static final Image PLAYER_IMAGE = new Image("sprites/GraveRobber.png");
-  private static final Image HOUSE_IMAGE = new Image("sprites/house-002.png");
-  private static final Image PLANT_IMAGE = new Image("sprites/TEST.png");
+  private static final Image HOUSE_IMAGE =
+      new Image("sprites/house-002.png", 200, 200, false, false);
+  private static final Image PLANT_IMAGE = new Image("sprites/cooler/cooler_stage_0.png");
+  private static final ImageView PLANT_IMAGE_VIEWER = new ImageView(PLANT_IMAGE);
   private static final Image FIEL_IMAGE = new Image("sprites/field.png");
+  private static final ImageView FIEL_IMAGE_VIEWER = new ImageView(FIEL_IMAGE);
 
   private static final double MS_PER_UPDATE = 1000 / FPS;
 
   private ArrayList<Block> blocks = new ArrayList<>();
+  private Inventory inventory = new Inventory();
   private Block house = new Block(200, 200, 200, 200, HOUSE_IMAGE);
   private Field field = new Field(300, 500, 500, 250, FIEL_IMAGE, PLANT_IMAGE, 5, 8, 20);
   private Group root = new Group();
@@ -66,6 +76,10 @@ public class RPG extends Application {
   private Command playerMoveUpCommand = new PlayerMoveUpCommand(player);
   private Command fieldGrowAllFieldCommand = new fieldGrowAllFieldCommand(field);
   private Command fieldAddCommand = new fieldAddCommand(field);
+  private Command InventorySelectDownCommand = new InventorySelectDownCommand(inventory);
+  private Command InventorySelectLeftCommand = new InventorySelectLeftCommand(inventory);
+  private Command InventorySelectRightCommand = new InventorySelectRightCommand(inventory);
+  private Command InventorySelectUpCommand = new InventorySelectUpCommand(inventory);
 
   public static void main(String[] args) {
     launch(args);
@@ -119,8 +133,13 @@ public class RPG extends Application {
           if (command == this.playerMoveDownCommand
               || command == this.playerMoveLeftCommand
               || command == this.playerMoveRightCommand
-              || command == this.playerMoveUpCommand) {
+              || command == this.playerMoveUpCommand
+              || command == this.InventorySelectDownCommand
+              || command == this.InventorySelectLeftCommand
+              || command == this.InventorySelectRightCommand
+              || command == this.InventorySelectUpCommand) {
             this.player.setState(new IdleState());
+            this.inventory.setState(new InventoryIdleState());
           }
         });
   }
@@ -134,6 +153,15 @@ public class RPG extends Application {
     for (int i = 0; i < this.field.plants.size(); i++) {
       for (int j = 0; j < this.field.plants.get(0).size(); j++) {
         this.blocks.add(this.field.plants.get(i).get(j));
+      }
+    }
+
+    this.blocks.add(this.inventory.inventory);
+
+    for (int i = 0; i < this.inventory.items.size(); i++) {
+      for (int j = 0; j < this.inventory.items.get(0).size(); j++) {
+        this.blocks.add(this.inventory.slots.get(i).get(j));
+        this.blocks.add(this.inventory.items.get(i).get(j));
       }
     }
 
@@ -156,6 +184,12 @@ public class RPG extends Application {
     this.inputHandler.mapInput(KeyCode.LEFT, this.playerMoveLeftCommand);
     this.inputHandler.mapInput(KeyCode.RIGHT, this.playerMoveRightCommand);
     this.inputHandler.mapInput(KeyCode.UP, this.playerMoveUpCommand);
+
+    this.inputHandler.mapInput(KeyCode.S, this.InventorySelectDownCommand);
+    this.inputHandler.mapInput(KeyCode.Q, this.InventorySelectLeftCommand);
+    this.inputHandler.mapInput(KeyCode.D, this.InventorySelectRightCommand);
+    this.inputHandler.mapInput(KeyCode.Z, this.InventorySelectUpCommand);
+
     this.inputHandler.mapInput(KeyCode.G, this.fieldGrowAllFieldCommand);
     this.inputHandler.mapInput(KeyCode.A, this.fieldAddCommand);
   }
@@ -164,9 +198,63 @@ public class RPG extends Application {
     this.root.getChildren().add(this.player);
   }
 
+  private void borderControl(Block block) {
+    double playerPosX = player.getX();
+    double playerPosY = player.getY();
+    double blockMinX = block.getBoundsInLocal().getMinX();
+    double blockMinY = block.getBoundsInLocal().getMinY();
+    double maxX = block.getBoundsInLocal().getMaxX();
+    double maxY = block.getBoundsInLocal().getMaxY();
+    double blockMaxX = maxX - PLAYER_WIDTH;
+    double blockMaxY = maxY - PLAYER_HEIGHT;
+
+    while (player.intersects(block.getBoundsInLocal())) {
+      if (playerPosX >= blockMaxX) {
+        System.out.println("Player X " + playerPosX);
+        System.out.println("Player Y " + playerPosY);
+        System.out.println("You just hit House Max X: " + block.getBoundsInLocal().getMaxX());
+        player.setX(blockMaxX + 1 * MS_PER_UPDATE);
+        player.setState(new IdleState());
+        break;
+      } else if (playerPosY >= blockMaxY) {
+        System.out.println("Player X " + playerPosX);
+        System.out.println("Player Y " + playerPosY);
+        System.out.println("You just hit House MaxY: " + block.getBoundsInLocal().getMaxY());
+        player.setY(blockMaxY + 1 * MS_PER_UPDATE);
+        player.setState(new IdleState());
+        break;
+      } else if (playerPosX <= blockMinX) {
+        System.out.println("Player X " + playerPosX);
+        System.out.println("Player Y " + playerPosY);
+        System.out.println("You just hit House Min X: " + block.getBoundsInLocal().getMinX());
+        player.setX(blockMinX - 1 * MS_PER_UPDATE);
+        player.setState(new IdleState());
+        break;
+      } else if (playerPosY <= blockMinY) {
+        System.out.println("Player X " + playerPosX);
+        System.out.println("Player Y " + playerPosY);
+        System.out.println("You just hit House MinY: " + block.getBoundsInLocal().getMinY());
+        System.out.println("Bounds " + block.getBoundsInLocal());
+        player.setY(blockMinY - 1 * MS_PER_UPDATE);
+        player.setState(new IdleState());
+        break;
+      } else {
+        System.out.println("Player X " + playerPosX);
+        System.out.println("Player Y " + playerPosY);
+        System.out.println("You just hit House Max X: " + block.getBoundsInLocal().getMaxX());
+        System.out.println("You just hit House MaxY: " + block.getBoundsInLocal().getMaxY());
+        System.out.println("Bounds " + block.getBoundsInLocal());
+        System.out.println("This is the fucking error!");
+      }
+    }
+  }
+
   private void playerCollideBlocks() {
     for (Block block : this.blocks) {
       if (player.intersects(block.getBoundsInLocal())) {
+        if (block.equals(house)) {
+          this.borderControl(house);
+        }
         block.setState(new BlockInteractableState());
         if (block instanceof Plant) {
           Plant plant = (Plant) block;
@@ -183,5 +271,6 @@ public class RPG extends Application {
     this.player.update(elapsedMilliseconds);
     this.playerCollideBlocks();
     this.field.update(elapsedMilliseconds);
+    this.inventory.update(elapsedMilliseconds);
   }
 }

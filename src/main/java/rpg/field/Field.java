@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.image.Image;
 import rpg.blocks.Block;
-import rpg.blocks.BlockNullState;
 import rpg.plants.Plant;
 
 public class Field {
