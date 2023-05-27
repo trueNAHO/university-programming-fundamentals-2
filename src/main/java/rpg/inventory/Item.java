@@ -10,7 +10,7 @@ public class Item extends Block {
   // new Image("sprites/TEST.png", width, height, false, false)
 
   public Item(double x, double y, String type, double width, double height) {
-    super(x, y, width, height, new Image("sprites/TEST.png", width, height, false, false));
+    super(x, y, width, height, new Image("sprites/items/cpu_seed.png"));
     this.type = type;
     this.amount = 0;
   }
