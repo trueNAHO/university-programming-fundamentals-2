@@ -7,10 +7,9 @@ public class Plant extends Block {
   private static final String MAX_STAGE_VALUE = "final";
   private static final int MAX_STAGES = 3;
   private static final int START_STAGE = 1;
-  private static final int NULL_STAGE = 0;
 
   private String type;
-  private int stage = NULL_STAGE;
+  private int stage = START_STAGE;
   private Image image;
   private double width;
   private double height;
@@ -24,13 +23,7 @@ public class Plant extends Block {
   }
 
   public void grow() {
-    if (this.stage != NULL_STAGE) {
-      this.setStage(this.stage + 1);
-    }
-  }
-
-  public void remove() {
-    this.setStage(NULL_STAGE);
+    this.setStage(this.stage + 1);
   }
 
   public void reset() {

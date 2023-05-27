@@ -49,7 +49,7 @@ public class RPG extends Application {
   private static final Image PLAYER_IMAGE = new Image("sprites/GraveRobber.png");
   private static final Image HOUSE_IMAGE =
       new Image("sprites/house-002.png", 200, 200, false, false);
-  private static final Image PLANT_IMAGE = new Image("sprites/cooler/cooler_stage_0.png");
+  private static final Image PLANT_IMAGE = new Image("sprites/TEST.png");
   private static final ImageView PLANT_IMAGE_VIEWER = new ImageView(PLANT_IMAGE);
   private static final Image FIEL_IMAGE = new Image("sprites/field.png");
   private static final ImageView FIEL_IMAGE_VIEWER = new ImageView(FIEL_IMAGE);
