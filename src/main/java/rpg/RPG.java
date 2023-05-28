@@ -230,34 +230,32 @@ public class RPG extends Application {
     }
   }
 
-  // private void borderControl() {
-  //   double playerPosX = player.getX();
-  //   double playerPosY = player.getY();
-  //   System.out.println(playerPosX + "     " + playerPosY);
+  private void borderControl() {
+    double playerPosX = player.getX();
+    double playerPosY = player.getY();
+    System.out.println(playerPosX + "     " + playerPosY);
 
-  //   while (player.intersects(scene.getBoundsInLocal())) {
-  //     if (playerPosY == 0) {
-  //       player.setY(player.getY() + 10);
-  //       player.setState(new IdleState());
-  //       System.out.println("WORKING!!!!!!");
-  //     }
-  //     if (playerPosY == SCENE_HEIGHT) {
-  //       player.setY(player.getY() - 10);
-  //       player.setState(new IdleState());
-  //       System.out.println("WORKING!!!!!!");
-  //     }
-  //     if (playerPosX == 0) {
-  //       player.setX(player.getX() + 10);
-  //       player.setState(new IdleState());
-  //       System.out.println("WORKING!!!!!!");
-  //     }
-  //     if (playerPosX == SCENE_WIDTH) {
-  //       player.setX(player.getX() - 10);
-  //       player.setState(new IdleState());
-  //       System.out.println("WORKING!!!!!!");
-  //     }
-  //   }
-  // }
+    if (playerPosY <= 0) {
+      player.setY(player.getY() + 1 * MS_PER_UPDATE);
+      player.setState(new IdleState());
+      System.out.println("Player reached the top border!");
+    }
+    if (playerPosY >= SCENE_HEIGHT - PLAYER_HEIGHT) {
+      player.setY(player.getY() - 1 * MS_PER_UPDATE);
+      player.setState(new IdleState());
+      System.out.println("Player reached the bottom border!");
+    }
+    if (playerPosX <= 0) {
+      player.setX(player.getX() + 1 * MS_PER_UPDATE);
+      player.setState(new IdleState());
+      System.out.println("Player reached the left border!");
+    }
+    if (playerPosX >= SCENE_WIDTH - PLAYER_WIDTH) {
+      player.setX(player.getX() - 1 * MS_PER_UPDATE);
+      player.setState(new IdleState());
+      System.out.println("Player reached the right border!");
+    }
+  }
 
   private void houseCollision(Block block) {
     double playerPosX = player.getX();
@@ -305,13 +303,13 @@ public class RPG extends Application {
         System.out.println("You just hit House Max X: " + block.getBoundsInLocal().getMaxX());
         System.out.println("You just hit House MaxY: " + block.getBoundsInLocal().getMaxY());
         System.out.println("Bounds " + block.getBoundsInLocal());
-        System.out.println("This is the fucking error!");
+        System.out.println("This is the  error!");
       }
     }
   }
 
   private void playerCollideBlocks() {
-    // this.borderControl();
+    this.borderControl();
     for (Block block : this.blocks) {
       if (player.intersects(block.getBoundsInLocal())) {
         if (block.equals(house)) {
