@@ -126,6 +126,13 @@ public class RPG extends Application {
         };
 
     gameLoop.start();
+
+    this.inventory.set(0, 0, 10, "cpu_seed");
+    this.inventory.set(1, 0, 10, "gpu_seed");
+    this.inventory.set(2, 0, 10, "ram_seed");
+    this.inventory.set(3, 0, 10, "hdd_seed");
+    this.inventory.set(4, 0, 10, "board_seed");
+    this.inventory.set(5, 0, 10, "cooler_seed");
   }
 
   private void handleInput() {
@@ -310,19 +317,25 @@ public class RPG extends Application {
         if (block.equals(house)) {
           this.houseCollision(house);
         }
-        block.setState(new BlockInteractableState());
         if (block instanceof Plant) {
           Plant plant = (Plant) block;
-          this.field.canHarvest(plant, true);
-          if (spacePress && plant.type != "empty") {
+          if (plant.type.equals("empty")) {
+            plant.setText("Plant");
+            block.setState(new BlockInteractableState());
+          } else if (!plant.type.equals("empty") && plant.fullyGrown()) {
+            plant.setText("Harvest");
+            block.setState(new BlockInteractableState());
+          }
+          if (spacePress && !plant.type.equals("empty")) {
             this.field.harvest(plant, this.inventory);
+          } else if (spacePress && plant.type.equals("empty")) {
+            this.field.plant(plant, this.inventory);
           }
         }
       } else if (block.isInteractable()) {
         block.setState(new BlockIdleState());
         if (block instanceof Plant) {
           Plant plant = (Plant) block;
-          this.field.canHarvest(plant, false);
         }
       }
     }

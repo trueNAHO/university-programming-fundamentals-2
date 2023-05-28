@@ -85,20 +85,55 @@ public class Inventory {
     }
   }
 
+  public String getItem() {
+    return this.items.get(selectedY).get(selectedX).type;
+  }
+
+  public String getItem(int x, int y) {
+    return this.items.get(y).get(x).type;
+  }
+
   public void add(String type) {
-    if (type != "empty") {
+    if (!type.equals("empty")) {
       for (int i = 0; i < this.items.size(); i++) {
         for (int j = 0; j < this.items.get(i).size(); j++) {
-          if (this.items.get(i).get(j).type == type) {
-            this.items.get(i).get(j).add();
-            return;
-          } else if (this.items.get(i).get(j).type == "empty") {
+          if (this.items.get(i).get(j).type.equals(type)) {
+            if (this.items.get(i).get(j).inTheLimit()) {
+              this.items.get(i).get(j).add();
+              return;
+            } else {
+              break;
+            }
+          }
+        }
+      }
+
+      for (int i = 0; i < this.items.size(); i++) {
+        for (int j = 0; j < this.items.get(i).size(); j++) {
+          if (this.items.get(i).get(j).type.equals("empty")) {
             this.items.get(i).get(j).set(type);
             return;
           }
         }
       }
     }
+  }
+
+  public void remove(String type) {
+    if (!type.equals("empty")) {
+      for (int i = 0; i < this.items.size(); i++) {
+        for (int j = 0; j < this.items.get(i).size(); j++) {
+          if (this.items.get(i).get(j).type.equals(type)) {
+            this.items.get(i).get(j).remove();
+            return;
+          }
+        }
+      }
+    }
+  }
+
+  public void set(int x, int y, int amount, String type) {
+    this.items.get(y).get(x).set(type, amount);
   }
 
   public void select() {

@@ -48,6 +48,10 @@ public class Block extends Rectangle {
     this.state.enter(this.textBox);
   }
 
+  public void setText(String text) {
+    this.textBox.setText(text);
+  }
+
   public void changeImage(Image image) {
     setFill(new ImagePattern(image));
   }

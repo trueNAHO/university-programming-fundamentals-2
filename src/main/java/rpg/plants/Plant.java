@@ -13,7 +13,6 @@ public class Plant extends Block {
   private Image image;
   private double width;
   private double height;
-  public boolean harvestState;
   private boolean grown;
 
   public Plant(double x, double y, double width, double height, String type, Image firstImage) {
@@ -21,17 +20,12 @@ public class Plant extends Block {
     this.type = type;
     this.width = width;
     this.height = height;
-    this.harvestState = false;
     this.grown = false;
     grow();
   }
 
   public void grow() {
     this.setStage(this.stage + 1);
-  }
-
-  public void canHarvest(boolean harvest) {
-    this.harvestState = harvest;
   }
 
   public boolean fullyGrown() {
@@ -54,7 +48,7 @@ public class Plant extends Block {
   }
 
   public void setType(String newType) {
-    if (newType == this.type) return;
+    if (newType.equals(this.type)) return;
 
     this.stage = START_STAGE;
     this.grown = false;

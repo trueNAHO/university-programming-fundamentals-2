@@ -59,14 +59,19 @@ public class Field {
     this.plants.get(x).get(y).setType(type);
   }
 
-  public void canHarvest(Plant block, boolean harvest) {
-    block.canHarvest(harvest);
-  }
-
   public void harvest(Plant block, Inventory inventory) {
-    if (block.harvestState && block.fullyGrown()) {
+    if (block.fullyGrown()) {
       inventory.add(block.type);
       remove(block);
+    }
+  }
+
+  public void plant(Plant block, Inventory inventory) {
+    String item = inventory.getItem();
+    if (!item.equals("empty") && item.contains("seed")) {
+      String plantType = item.substring(0, item.length() - 5);
+      inventory.remove(item);
+      block.setType(plantType);
     }
   }
 

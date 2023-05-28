@@ -5,7 +5,7 @@ import rpg.blocks.Block;
 
 public class Item extends Block {
   public String type;
-  private int amount = 0;
+  public int amount = 0;
   private int maxAmount = 64;
   // new Image("sprites/TEST.png", width, height, false, false)
 
@@ -15,36 +15,46 @@ public class Item extends Block {
     this.amount = 0;
   }
 
-  public boolean add(int x) {
-    if (this.amount + x <= 64 && x > 0) {
+  public void add(int x) {
+    if (inTheLimit(x)) {
       this.amount += x;
-      return true;
-    } else {
-      return false;
     }
   }
 
-  public boolean add() {
-    if (this.amount < 64) {
+  public void add() {
+    if (inTheLimit()) {
       this.amount++;
-      return true;
-    } else {
-      return false;
     }
   }
 
-  public boolean remove(int x) {
-    if (this.amount >= x && x > 0) {
+  public void remove(int x) {
+    if (inTheLimit(x)) {
       this.amount -= x;
+    }
+    if (this.amount == 0) {
+      set("empty");
+    }
+  }
+
+  public void remove() {
+    if (inTheLimit()) {
+      this.amount--;
+    }
+    if (this.amount == 0) {
+      set("empty");
+    }
+  }
+
+  public boolean inTheLimit() {
+    if (this.amount < maxAmount && this.amount > 0) {
       return true;
     } else {
       return false;
     }
   }
 
-  public boolean remove() {
-    if (amount > 0) {
-      this.amount--;
+  public boolean inTheLimit(int x) {
+    if (this.amount + x <= maxAmount && this.amount >= x) {
       return true;
     } else {
       return false;
@@ -54,6 +64,12 @@ public class Item extends Block {
   public void set(String type) {
     this.type = type;
     this.amount = 1;
+    changeImage(new Image("sprites/items/" + this.type + ".png"));
+  }
+
+  public void set(String type, int amount) {
+    this.type = type;
+    this.amount = amount;
     changeImage(new Image("sprites/items/" + this.type + ".png"));
   }
 }
