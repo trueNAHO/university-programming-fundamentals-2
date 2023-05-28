@@ -1,11 +1,11 @@
 package rpg;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -34,6 +34,7 @@ import rpg.input.InputHandler;
 import rpg.inventory.Inventory;
 import rpg.inventory.states.InventoryIdleState;
 import rpg.plants.Plant;
+import rpg.text_box.TextBox;
 
 public class RPG extends Application {
   private static final double FPS = 24;
@@ -54,6 +55,8 @@ public class RPG extends Application {
   private static final ImageView PLANT_IMAGE_VIEWER = new ImageView(PLANT_IMAGE);
   private static final Image FIEL_IMAGE = new Image("sprites/field.png");
   private static final ImageView FIEL_IMAGE_VIEWER = new ImageView(FIEL_IMAGE);
+  private static final double TEXT_BOX_X_PADDING = 50;
+  private static final double TEXT_BOX_Y_PADDING = 50;
 
   private static final double MS_PER_UPDATE = 1000 / FPS;
 
@@ -62,6 +65,7 @@ public class RPG extends Application {
   private Block house = new Block(200, 200, 200, 200, HOUSE_IMAGE);
   private Field field = new Field(300, 500, 500, 250, FIEL_IMAGE, PLANT_IMAGE, 5, 8, 20);
   private Group root = new Group();
+  private HashMap<String, TextBox> textBoxes = new HashMap<>();
   private InputHandler inputHandler = new InputHandler();
   private Player player = new Player(PLAYER_X, PLAYER_Y, PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_IMAGE);
   private Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
@@ -95,6 +99,7 @@ public class RPG extends Application {
     setupDefaultKeyBindings();
     setupBlocks();
     setupPlayer();
+    setupTextBoxes();
 
     primaryStage.setTitle("RPG");
     primaryStage.setScene(this.scene);
@@ -196,6 +201,26 @@ public class RPG extends Application {
 
   private void setupPlayer() {
     this.root.getChildren().add(this.player);
+  }
+
+  private void setupTextBoxes() {
+    String[] plants = {
+      "CPU", "Cooler", "GPU", "HDD", "Mother Board", "RAM",
+    };
+
+    for (int i = 0; i < plants.length; i++) {
+      String plant = plants[i];
+      TextBox textBox =
+          new TextBox(
+              String.format("%s: ", plant),
+              "",
+              0,
+              TEXT_BOX_X_PADDING,
+              SCENE_HEIGHT - (i + 1) * TEXT_BOX_Y_PADDING);
+
+      this.textBoxes.put(plant, textBox);
+      this.root.getChildren().add(textBox.textBox);
+    }
   }
 
   // private void borderControl() {
@@ -313,5 +338,9 @@ public class RPG extends Application {
     this.playerCollideBlocks();
     this.field.update(elapsedMilliseconds);
     this.inventory.update(elapsedMilliseconds);
+
+    for (TextBox textBox : textBoxes.values()) {
+      textBox.update(elapsedMilliseconds);
+    }
   }
 }
