@@ -284,7 +284,7 @@ public class RPG extends Application {
         player.setY(blockMaxY + 1 * MS_PER_UPDATE);
         player.setState(new IdleState());
         break;
-      } else if (playerPosX <= blockMinX) {
+      } else if (playerPosX - 10 <= blockMinX) {
         System.out.println("Player X " + playerPosX);
         System.out.println("Player Y " + playerPosY);
         System.out.println("You just hit House Min X: " + block.getBoundsInLocal().getMinX());
