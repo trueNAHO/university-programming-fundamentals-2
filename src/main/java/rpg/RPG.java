@@ -259,8 +259,8 @@ public class RPG extends Application {
     double blockMinY = block.getBoundsInLocal().getMinY();
     double maxX = block.getBoundsInLocal().getMaxX();
     double maxY = block.getBoundsInLocal().getMaxY();
-    double blockMaxX = maxX - PLAYER_WIDTH;
-    double blockMaxY = maxY - PLAYER_HEIGHT;
+    double blockMaxX = maxX - 66;
+    double blockMaxY = maxY - 38;
 
     while (player.intersects(block.getBoundsInLocal())) {
       if (playerPosX >= blockMaxX) {
