@@ -317,9 +317,15 @@ public class RPG extends Application {
         if (block.equals(house)) {
           this.houseCollision(house);
         }
-        block.setState(new BlockInteractableState());
         if (block instanceof Plant) {
           Plant plant = (Plant) block;
+          if (plant.type.equals("empty")) {
+            plant.setText("Plant");
+            block.setState(new BlockInteractableState());
+          } else if (!plant.type.equals("empty") && plant.fullyGrown()) {
+            plant.setText("Harvest");
+            block.setState(new BlockInteractableState());
+          }
           if (spacePress && !plant.type.equals("empty")) {
             this.field.harvest(plant, this.inventory);
           } else if (spacePress && plant.type.equals("empty")) {
