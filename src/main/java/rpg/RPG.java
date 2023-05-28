@@ -176,13 +176,6 @@ public class RPG extends Application {
       this.root.getChildren().add(block.textBox);
       block.textBox.toFront();
     }
-
-    Label newTextBox = new Label();
-    newTextBox.relocate(100, 100);
-    newTextBox.setStyle("-fx-background-color: white;");
-    newTextBox.setText("This is a random text box.");
-    newTextBox.toFront();
-    this.root.getChildren().add(newTextBox);
   }
 
   private void setupDefaultKeyBindings() {
