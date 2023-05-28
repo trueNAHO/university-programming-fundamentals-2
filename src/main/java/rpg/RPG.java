@@ -25,6 +25,7 @@ import rpg.command.PlayerMoveRightCommand;
 import rpg.command.PlayerMoveUpCommand;
 import rpg.command.fieldAddCommand;
 import rpg.command.fieldGrowAllFieldCommand;
+import rpg.command.fieldHarvestCommand;
 import rpg.day_night_cycle.DayNightCycle;
 import rpg.entities.player.Player;
 import rpg.entities.player.states.IdleState;
@@ -36,8 +37,8 @@ import rpg.plants.Plant;
 
 public class RPG extends Application {
   private static final double FPS = 24;
-  private static final double PLAYER_HEIGHT = 66;
-  private static final double PLAYER_WIDTH = 38;
+  private static final double PLAYER_HEIGHT = 56;
+  private static final double PLAYER_WIDTH = 28;
   private static final double PLAYER_X = 100;
   private static final double PLAYER_Y = 100;
   private static final int SCENE_HEIGHT = 900;
@@ -76,10 +77,13 @@ public class RPG extends Application {
   private Command playerMoveUpCommand = new PlayerMoveUpCommand(player);
   private Command fieldGrowAllFieldCommand = new fieldGrowAllFieldCommand(field);
   private Command fieldAddCommand = new fieldAddCommand(field);
+  private Command fieldHarvestCommand = new fieldHarvestCommand(this);
   private Command InventorySelectDownCommand = new InventorySelectDownCommand(inventory);
   private Command InventorySelectLeftCommand = new InventorySelectLeftCommand(inventory);
   private Command InventorySelectRightCommand = new InventorySelectRightCommand(inventory);
   private Command InventorySelectUpCommand = new InventorySelectUpCommand(inventory);
+
+  public boolean spacePress = false;
 
   public static void main(String[] args) {
     launch(args);
@@ -137,9 +141,11 @@ public class RPG extends Application {
               || command == this.InventorySelectDownCommand
               || command == this.InventorySelectLeftCommand
               || command == this.InventorySelectRightCommand
-              || command == this.InventorySelectUpCommand) {
+              || command == this.InventorySelectUpCommand
+              || command == this.fieldHarvestCommand) {
             this.player.setState(new IdleState());
             this.inventory.setState(new InventoryIdleState());
+            pressedSpace(false);
           }
         });
   }
@@ -192,6 +198,7 @@ public class RPG extends Application {
 
     this.inputHandler.mapInput(KeyCode.G, this.fieldGrowAllFieldCommand);
     this.inputHandler.mapInput(KeyCode.A, this.fieldAddCommand);
+    this.inputHandler.mapInput(KeyCode.SPACE, this.fieldHarvestCommand);
   }
 
   private void setupPlayer() {
@@ -288,12 +295,23 @@ public class RPG extends Application {
         block.setState(new BlockInteractableState());
         if (block instanceof Plant) {
           Plant plant = (Plant) block;
-          this.field.remove(plant);
+          this.field.canHarvest(plant, true);
+          if (spacePress && plant.type != "empty") {
+            this.field.harvest(plant, this.inventory);
+          }
         }
       } else if (block.isInteractable()) {
         block.setState(new BlockIdleState());
+        if (block instanceof Plant) {
+          Plant plant = (Plant) block;
+          this.field.canHarvest(plant, false);
+        }
       }
     }
+  }
+
+  public void pressedSpace(boolean press) {
+    spacePress = press;
   }
 
   private void update(double elapsedMilliseconds) {

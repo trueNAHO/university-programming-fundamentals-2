@@ -5,6 +5,7 @@ import java.util.List;
 import javafx.scene.image.Image;
 import rpg.blocks.Block;
 import rpg.blocks.BlockNullState;
+import rpg.inventory.Inventory;
 import rpg.plants.Plant;
 
 public class Field {
@@ -56,6 +57,17 @@ public class Field {
   public void set(int x, int y, String type) {
     this.plants.get(x).get(y).setStage(1);
     this.plants.get(x).get(y).setType(type);
+  }
+
+  public void canHarvest(Plant block, boolean harvest) {
+    block.canHarvest(harvest);
+  }
+
+  public void harvest(Plant block, Inventory inventory) {
+    if (block.harvestState && block.fullyGrown()) {
+      inventory.add(block.type);
+      remove(block);
+    }
   }
 
   public void grow(int x, int y) {

@@ -20,7 +20,7 @@ public class Inventory {
   private int rows = 4;
   private int columns = 8;
 
-  private double x = 0;
+  private double x = 1013;
   private double y = 0;
   private double width = 487;
   private double height = 260;
@@ -61,7 +61,7 @@ public class Inventory {
 
         double slotX = innerX + j * (53 + slotSpacing);
         double slotY = innerY + i * (53 + slotSpacing);
-        Item itemBlock = new Item(itemX, itemY, "deeznut", itemWidth, itemHeight);
+        Item itemBlock = new Item(itemX, itemY, "empty", itemWidth, itemHeight);
         Slot slotBlock = new Slot(slotX, slotY);
         rowItem.add(itemBlock);
         rowSlot.add(slotBlock);
@@ -85,8 +85,23 @@ public class Inventory {
     }
   }
 
+  public void add(String type) {
+    if (type != "empty") {
+      for (int i = 0; i < this.items.size(); i++) {
+        for (int j = 0; j < this.items.get(i).size(); j++) {
+          if (this.items.get(i).get(j).type == type) {
+            this.items.get(i).get(j).add();
+            return;
+          } else if (this.items.get(i).get(j).type == "empty") {
+            this.items.get(i).get(j).set(type);
+            return;
+          }
+        }
+      }
+    }
+  }
+
   public void select() {
-    System.out.println(selectedX + " EE " + selectedY);
     this.slots.get(selectedY).get(selectedX).select();
   }
 

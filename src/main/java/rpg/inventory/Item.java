@@ -4,13 +4,13 @@ import javafx.scene.image.Image;
 import rpg.blocks.Block;
 
 public class Item extends Block {
-  private String type;
+  public String type;
   private int amount = 0;
   private int maxAmount = 64;
   // new Image("sprites/TEST.png", width, height, false, false)
 
   public Item(double x, double y, String type, double width, double height) {
-    super(x, y, width, height, new Image("sprites/items/cpu_seed.png"));
+    super(x, y, width, height, new Image("sprites/items/" + type + ".png"));
     this.type = type;
     this.amount = 0;
   }
@@ -49,5 +49,11 @@ public class Item extends Block {
     } else {
       return false;
     }
+  }
+
+  public void set(String type) {
+    this.type = type;
+    this.amount = 1;
+    changeImage(new Image("sprites/items/" + this.type + ".png"));
   }
 }
