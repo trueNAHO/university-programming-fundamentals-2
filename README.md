@@ -14,7 +14,7 @@
 
 ## Requirements
 
-- [Apache Maven](https://github.com/apache/maven)
+- [`mvn`](https://github.com/apache/maven)
 
 ## Installation
 
