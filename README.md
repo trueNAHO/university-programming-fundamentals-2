@@ -32,6 +32,8 @@ The project includes a [Makefile](Makefile) with the following targets:
   - Remove build artifacts and dependencies.
 - `make compile`
   - Compile the project.
+- `make format`
+  - Format the source code.
 - `make run`
   - Run the project.
 
