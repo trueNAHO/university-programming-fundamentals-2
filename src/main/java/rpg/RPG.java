@@ -53,7 +53,7 @@ public class RPG extends Application {
   private static final Image PLAYER_IMAGE = new Image("sprites/GraveRobber.png");
   private static final Image HOUSE_IMAGE =
       new Image("sprites/house-002.png", 200, 200, false, false);
-  private static final Image PLANT_IMAGE = new Image("sprites/TEST.png");
+  private static final Image PLANT_IMAGE = new Image("sprites/empty/empty_stage_1.png");
   private static final Image FIEL_IMAGE = new Image("sprites/field.png");
   private static final double TEXT_BOX_X_PADDING = 50;
   private static final double TEXT_BOX_Y_PADDING = 50;
@@ -138,12 +138,12 @@ public class RPG extends Application {
 
     gameLoop.start();
 
-    this.inventory.set(0, 0, 10, "cpu_seed");
-    this.inventory.set(1, 0, 10, "gpu_seed");
-    this.inventory.set(2, 0, 10, "ram_seed");
-    this.inventory.set(3, 0, 10, "hdd_seed");
-    this.inventory.set(4, 0, 10, "board_seed");
-    this.inventory.set(5, 0, 10, "cooler_seed");
+    this.inventory.set(0, 0, 64, "cpu_seed");
+    this.inventory.set(1, 0, 64, "gpu_seed");
+    this.inventory.set(2, 0, 64, "ram_seed");
+    this.inventory.set(3, 0, 64, "hdd_seed");
+    this.inventory.set(4, 0, 64, "board_seed");
+    this.inventory.set(5, 0, 64, "cooler_seed");
   }
 
   /**
