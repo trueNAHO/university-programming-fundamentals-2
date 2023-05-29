@@ -241,27 +241,22 @@ public class RPG extends Application {
   private void borderControl() {
     double playerPosX = player.getX();
     double playerPosY = player.getY();
-    // System.out.println(playerPosX + "     " + playerPosY);
 
     if (playerPosY <= 0) {
       player.setY(player.getY() + 1 * MS_PER_UPDATE);
       player.setState(new IdleState());
-      System.out.println("Player reached the top border!");
     }
     if (playerPosY >= SCENE_HEIGHT - PLAYER_HEIGHT) {
       player.setY(player.getY() - 1 * MS_PER_UPDATE);
       player.setState(new IdleState());
-      System.out.println("Player reached the bottom border!");
     }
     if (playerPosX <= 0) {
       player.setX(player.getX() + 1 * MS_PER_UPDATE);
       player.setState(new IdleState());
-      System.out.println("Player reached the left border!");
     }
     if (playerPosX >= SCENE_WIDTH - PLAYER_WIDTH) {
       player.setX(player.getX() - 1 * MS_PER_UPDATE);
       player.setState(new IdleState());
-      System.out.println("Player reached the right border!");
     }
   }
 
@@ -277,41 +272,23 @@ public class RPG extends Application {
 
     while (player.intersects(block.getBoundsInLocal())) {
       if (playerPosX >= blockMaxX) {
-        System.out.println("Player X " + playerPosX);
-        System.out.println("Player Y " + playerPosY);
-        System.out.println("You just hit House Max X: " + block.getBoundsInLocal().getMaxX());
         player.setX(blockMaxX + 1 * MS_PER_UPDATE);
         player.setState(new IdleState());
         break;
       } else if (playerPosY >= blockMaxY) {
-        System.out.println("Player X " + playerPosX);
-        System.out.println("Player Y " + playerPosY);
-        System.out.println("You just hit House MaxY: " + block.getBoundsInLocal().getMaxY());
         player.setY(blockMaxY + 1 * MS_PER_UPDATE);
         player.setState(new IdleState());
         break;
       } else if (playerPosX - 10 <= blockMinX) {
-        System.out.println("Player X " + playerPosX);
-        System.out.println("Player Y " + playerPosY);
-        System.out.println("You just hit House Min X: " + block.getBoundsInLocal().getMinX());
         player.setX(blockMinX - 1 * MS_PER_UPDATE);
         player.setState(new IdleState());
         break;
       } else if (playerPosY <= blockMinY) {
-        System.out.println("Player X " + playerPosX);
-        System.out.println("Player Y " + playerPosY);
-        System.out.println("You just hit House MinY: " + block.getBoundsInLocal().getMinY());
-        System.out.println("Bounds " + block.getBoundsInLocal());
         player.setY(blockMinY - 1 * MS_PER_UPDATE);
         player.setState(new IdleState());
         break;
       } else {
-        System.out.println("Player X " + playerPosX);
-        System.out.println("Player Y " + playerPosY);
-        System.out.println("You just hit House Max X: " + block.getBoundsInLocal().getMaxX());
-        System.out.println("You just hit House MaxY: " + block.getBoundsInLocal().getMaxY());
-        System.out.println("Bounds " + block.getBoundsInLocal());
-        System.out.println("This is the  error!");
+        System.out.println("Error!");
       }
     }
   }
