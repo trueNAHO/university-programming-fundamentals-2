@@ -55,7 +55,7 @@ public class Field {
       for (int j = 0; j < columns; j++) {
         double plantX = x + j * (plantWidth + this.plantSpacing);
         double plantY = y + i * (plantHeight + this.plantSpacing);
-        Plant plantBlock = new Plant(plantX, plantY, plantWidth, plantHeight, "cpu", plantImage);
+        Plant plantBlock = new Plant(plantX, plantY, plantWidth, plantHeight, "empty", plantImage);
         row.add(plantBlock);
       }
 
