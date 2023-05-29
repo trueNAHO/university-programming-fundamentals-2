@@ -13,6 +13,7 @@ public class Inventory {
 
   public Block inventory;
   public Block inventoryTextBox;
+  public TextBox textBoxInventory;
   private InventoryState state;
   public List<List<Slot>> slots;
   public List<List<Item>> items;
@@ -50,9 +51,11 @@ public class Inventory {
     this.inventory = new Block(x, y, width, height, new Image("sprites/inventory.png"));
     this.inventoryTextBox =
         new Block(x, y + height, width, textBoxHeight, new Image("sprites/inventoryTextBox.png"));
-    this.textAdd = new TextBox("test", "test", 0, 0, 0);
+    this.textBoxInventory = new TextBox("", "", x + 20, y + height + 30);
+    this.textBoxInventory.setStyle("-fx-background-color: transparent;-fx-font-size: 20px;");
+    this.textAdd = new TextBox("", "", 0, 0, 0);
     this.textAdd.setStyle("-fx-background-color: rgba(186, 186, 186, 0.9);-fx-font-size: 20px;");
-    this.textRemove = new TextBox("test", "test", 0, 0, 25);
+    this.textRemove = new TextBox("", "", 0, 0, 25);
     this.textRemove.setStyle("-fx-background-color: rgba(186, 186, 186, 0.9);-fx-font-size: 20px;");
 
     this.state = new NullState();
@@ -105,8 +108,17 @@ public class Inventory {
     return this.items.get(y).get(x).type;
   }
 
+  public int getAmount() {
+    return this.items.get(selectedY).get(selectedX).amount;
+  }
+
+  public int getAmount(int x, int y) {
+    return this.items.get(y).get(x).amount;
+  }
+
   private void textManager(String type, String text) {
     int occurrence = 0;
+    text = text.replace("_", " ");
     if (type.equals("add") && !textAdd.onScreen) {
       this.textAdd.setText("Just added: ", text);
       this.textAdd.setTimeUntilExpiration(10 * 1000);
@@ -195,6 +207,7 @@ public class Inventory {
             if (this.items.get(i).get(j).inTheLimit()) {
               this.items.get(i).get(j).add();
               textManager("add", type);
+              description();
               return;
             } else {
               break;
@@ -222,6 +235,7 @@ public class Inventory {
           if (this.items.get(i).get(j).type.equals(type)) {
             this.items.get(i).get(j).remove();
             textManager("remove", type);
+            description();
             return;
           }
         }
@@ -231,10 +245,20 @@ public class Inventory {
 
   public void set(int x, int y, int amount, String type) {
     this.items.get(y).get(x).set(type, amount);
+    description();
+  }
+
+  public void description() {
+    if (getItem().equals("empty")) {
+      this.textBoxInventory.setText("", "");
+    } else {
+      this.textBoxInventory.setText(getItem().replace("_", " "), ", amount: " + getAmount());
+    }
   }
 
   public void select() {
     this.slots.get(selectedY).get(selectedX).select();
+    description();
   }
 
   public void unselect() {

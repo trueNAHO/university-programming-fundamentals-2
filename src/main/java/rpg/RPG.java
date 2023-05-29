@@ -107,6 +107,7 @@ public class RPG extends Application {
     handleInput();
 
     primaryStage.show();
+    this.inventory.description();
 
     AnimationTimer gameLoop =
         new AnimationTimer() {
@@ -229,6 +230,8 @@ public class RPG extends Application {
       this.textBoxes.put(plant, textBox);
       this.root.getChildren().add(textBox.textBox);
     }
+    this.textBoxes.put("textBox", this.inventory.textBoxInventory);
+    this.root.getChildren().add(this.inventory.textBoxInventory.textBox);
     this.textBoxes.put("add", this.inventory.textAdd);
     this.root.getChildren().add(this.inventory.textAdd.textBox);
     this.textBoxes.put("remove", this.inventory.textRemove);
