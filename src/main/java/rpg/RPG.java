@@ -9,7 +9,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import rpg.blocks.Block;
 import rpg.blocks.BlockIdleState;
@@ -49,17 +48,13 @@ public class RPG extends Application {
   private static final double PLAYER_Y = 100;
   private static final int SCENE_HEIGHT = 900;
   private static final int SCENE_WIDTH = 1500;
-  private static final Color BACKGROUND_COLOR = Color.BLUE;
   private static final Image BACKGROUND_IMAGE =
       new Image("sprites/background.png", SCENE_WIDTH, SCENE_HEIGHT, false, false);
-  private static final Color PLAYER_COLOR = Color.RED;
   private static final Image PLAYER_IMAGE = new Image("sprites/GraveRobber.png");
   private static final Image HOUSE_IMAGE =
       new Image("sprites/house-002.png", 200, 200, false, false);
   private static final Image PLANT_IMAGE = new Image("sprites/TEST.png");
-  private static final ImageView PLANT_IMAGE_VIEWER = new ImageView(PLANT_IMAGE);
   private static final Image FIEL_IMAGE = new Image("sprites/field.png");
-  private static final ImageView FIEL_IMAGE_VIEWER = new ImageView(FIEL_IMAGE);
   private static final double TEXT_BOX_X_PADDING = 50;
   private static final double TEXT_BOX_Y_PADDING = 50;
 
@@ -113,6 +108,7 @@ public class RPG extends Application {
     setupDefaultKeyBindings();
     setupBlocks();
     setupPlayer();
+    setupInventory();
     setupTextBoxes();
 
     primaryStage.setTitle("RPG");
@@ -203,16 +199,6 @@ public class RPG extends Application {
       }
     }
 
-    this.blocks.add(this.inventory.inventory);
-    this.blocks.add(this.inventory.inventoryTextBox);
-
-    for (int i = 0; i < this.inventory.items.size(); i++) {
-      for (int j = 0; j < this.inventory.items.get(0).size(); j++) {
-        this.blocks.add(this.inventory.slots.get(i).get(j));
-        this.blocks.add(this.inventory.items.get(i).get(j));
-      }
-    }
-
     for (Block block : this.blocks) {
       this.root.getChildren().add(block);
       this.root.getChildren().add(block.textBox);
@@ -240,6 +226,19 @@ public class RPG extends Application {
   /** Sets the player up in the game world */
   private void setupPlayer() {
     this.root.getChildren().add(this.player);
+    this.root.getChildren().add(this.dayNightCycle.nightBlock);
+  }
+
+  private void setupInventory() {
+    this.root.getChildren().add(this.inventory.inventory);
+    this.root.getChildren().add(this.inventory.inventoryTextBox);
+
+    for (int i = 0; i < this.inventory.items.size(); i++) {
+      for (int j = 0; j < this.inventory.items.get(0).size(); j++) {
+        this.root.getChildren().add(this.inventory.slots.get(i).get(j));
+        this.root.getChildren().add(this.inventory.items.get(i).get(j));
+      }
+    }
   }
 
   /** Sets up text boxes for each plant type and inventory to the root pane */

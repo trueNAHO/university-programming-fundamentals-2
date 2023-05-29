@@ -14,15 +14,14 @@ public class Block extends Rectangle {
   private static final String TEXT_BOX_TEXT = "Interactable";
 
   /**
-    * Constructs a Block object with the specified position, dimensions, and color.
-    *
-    * @param x The x-coordinate of the blocks position.
-    * @param y The y-coordinate of the blocks position.
-    * @param width The width of the block.
-    * @param height The height of the block.
-    * @param color The color of the block.
-  */
-
+   * Constructs a Block object with the specified position, dimensions, and color.
+   *
+   * @param x The x-coordinate of the blocks position.
+   * @param y The y-coordinate of the blocks position.
+   * @param width The width of the block.
+   * @param height The height of the block.
+   * @param color The color of the block.
+   */
   public Block(double x, double y, double width, double height, Color color) {
     super(x, y, width, height);
     this.state = new BlockNullState();
@@ -37,14 +36,14 @@ public class Block extends Rectangle {
   }
 
   /**
-  * Constructs a Block object with the specified position, dimensions, and color.
-  *
-  * @param x The x-coordinate of the blocks position.
-  * @param y The y-coordinate of the blocks position.
-  * @param width The width of the block.
-  * @param height The height of the block.
-  * @param image The image of the block.
-*/
+   * Constructs a Block object with the specified position, dimensions, and color.
+   *
+   * @param x The x-coordinate of the blocks position.
+   * @param y The y-coordinate of the blocks position.
+   * @param width The width of the block.
+   * @param height The height of the block.
+   * @param image The image of the block.
+   */
   public Block(double x, double y, double width, double height, Image image) {
     super(x, y, width, height);
     this.state = new BlockNullState();
@@ -60,19 +59,18 @@ public class Block extends Rectangle {
 
   /**
    * Checks if the block is interactable
-   * @return True if the block is interactable, false if not 
+   *
+   * @return True if the block is interactable, false if not
    */
-  
   public boolean isInteractable() {
     return this.state instanceof BlockInteractableState;
   }
 
   /**
-   * Sets the state for a block
-   * Updates the tex box and performs necessary state transitions
+   * Sets the state for a block Updates the tex box and performs necessary state transitions
+   *
    * @param newState The new state of the block
    */
-  
   public void setState(BlockState newState) {
     this.state.exit(this.textBox);
     this.state = newState;
@@ -80,28 +78,37 @@ public class Block extends Rectangle {
   }
 
   /**
-   * Sets the text for the text box of the block 
+   * Sets the text for the text box of the block
+   *
    * @param text The text to set
    */
-  
   public void setText(String text) {
     this.textBox.setText(text);
   }
 
   /**
    * Change the image of the block
+   *
    * @param image The new image for the block
    */
-  
   public void changeImage(Image image) {
     setFill(new ImagePattern(image));
   }
 
   /**
+   * Change the color of the block
+   *
+   * @param color The new color for the block
+   */
+  public void changeColor(Color color) {
+    setFill(color);
+  }
+
+  /**
    * Updates the blocks state
+   *
    * @param deltatime The time elapsed since the last update
    */
-
   public void update(double deltaTime) {
     this.state.update();
   }

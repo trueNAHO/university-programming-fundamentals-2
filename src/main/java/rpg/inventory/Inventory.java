@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 import rpg.blocks.Block;
 import rpg.inventory.states.InventoryState;
 import rpg.inventory.states.NullState;
@@ -19,7 +18,6 @@ public class Inventory {
   private InventoryState state;
   public List<List<Slot>> slots;
   public List<List<Item>> items;
-  private Color color = Color.BLUE;
   private double itemSpacing = 11;
   private double slotSpacing = 3;
   private int rows = 4;
