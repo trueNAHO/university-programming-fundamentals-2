@@ -39,11 +39,13 @@ public class Plant extends Block {
 
   public void setStage(int newStage) {
     if (this.stage > MAX_STAGES && newStage > MAX_STAGES) {
-      this.grown = true;
       return;
     }
 
     this.stage = newStage;
+    if (this.stage > MAX_STAGES) {
+      this.grown = true;
+    }
     this.SetImage();
   }
 
