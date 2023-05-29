@@ -39,9 +39,7 @@ import rpg.text_box.TextBox;
 /**
  * The RPG class represents th main class of our rpg game. It extends the JavaFX Application class
  * and is responsible for setting up and running the game.
-*/
-
-
+ */
 public class RPG extends Application {
   // Constants
   private static final double FPS = 24;
@@ -97,21 +95,18 @@ public class RPG extends Application {
 
   public boolean spacePress = false;
 
-  /**
-   * The main method of the RPG game. It launches the JavaFX application.
-  */
-
+  /** The main method of the RPG game. It launches the JavaFX application. */
   public static void main(String[] args) {
     launch(args);
   }
 
   /**
-   * The start method of the RPG game. It is called when the JavaFX application, the rpg game, starts.
-   * This method sets up the initial state of the game, inlcuding the stage, the scene, the blocks,
-   * the key bindings, the player, the text boxes.
+   * The start method of the RPG game. It is called when the JavaFX application, the rpg game,
+   * starts. This method sets up the initial state of the game, inlcuding the stage, the scene, the
+   * blocks, the key bindings, the player, the text boxes.
+   *
    * @param primaryStage This is the primary stage of the JavaFX application.
-  */
-
+   */
   @Override
   public void start(Stage primaryStage) {
     root.getChildren().add(new ImageView(BACKGROUND_IMAGE));
@@ -156,9 +151,8 @@ public class RPG extends Application {
   }
 
   /**
-   * Handles user input in the game, it registers if keys pressed or released and 
-   * determines the corresponding command to be executed.
-   * It updates the player and inventory states accordingly.
+   * Handles user input in the game, it registers if keys pressed or released and determines the
+   * corresponding command to be executed. It updates the player and inventory states accordingly.
    */
   private void handleInput() {
     this.scene.setOnKeyPressed(
@@ -188,19 +182,17 @@ public class RPG extends Application {
   }
 
   /**
-   * Renders the game based on elapsed time, in milliseconds, since the last update.
-   * It is called in the gameloop to update the visual representation of the game state.
+   * Renders the game based on elapsed time, in milliseconds, since the last update. It is called in
+   * the gameloop to update the visual representation of the game state.
+   *
    * @param elapsedMilliseconds The elapsed time in milliseconds since the last update.
    */
-
   private void render(double elapsedMilliseconds) {}
 
   /**
-   * Sets up all the different blocks making up the game world.
-   * These blocks are of various types such as: House, Field, Plants,
-   * Inventory and all of the text boxes belonging to each type.
+   * Sets up all the different blocks making up the game world. These blocks are of various types
+   * such as: House, Field, Plants, Inventory and all of the text boxes belonging to each type.
    */
-
   private void setupBlocks() {
     this.blocks.add(this.house);
     this.blocks.add(this.field.field);
@@ -228,10 +220,7 @@ public class RPG extends Application {
     }
   }
 
-  /**
-   * Maps the different commands to specific key bidnings
-   */
-
+  /** Maps the different commands to specific key bidnings */
   private void setupDefaultKeyBindings() {
     this.inputHandler.mapInput(KeyCode.DOWN, this.playerMoveDownCommand);
     this.inputHandler.mapInput(KeyCode.LEFT, this.playerMoveLeftCommand);
@@ -248,18 +237,12 @@ public class RPG extends Application {
     this.inputHandler.mapInput(KeyCode.SPACE, this.fieldHarvestCommand);
   }
 
-  /**
-   * Sets the player up in the game world 
-   */
-
+  /** Sets the player up in the game world */
   private void setupPlayer() {
     this.root.getChildren().add(this.player);
   }
 
-  /**
-   * Sets up text boxes for each plant type and inventory to the root pane
-  */ 
-
+  /** Sets up text boxes for each plant type and inventory to the root pane */
   private void setupTextBoxes() {
     String[] plants = {
       "CPU", "Cooler", "GPU", "HDD", "Mother Board", "RAM",
@@ -287,11 +270,10 @@ public class RPG extends Application {
   }
 
   /**
-   * Controls and limits the player movement in the game so the player
-   * can't run out of the scene. If the player touches the borders the player 
-   * position is adjusted and the player state is set to idle
+   * Controls and limits the player movement in the game so the player can't run out of the scene.
+   * If the player touches the borders the player position is adjusted and the player state is set
+   * to idle
    */
-
   private void borderControl() {
     double playerPosX = player.getX();
     double playerPosY = player.getY();
@@ -315,11 +297,11 @@ public class RPG extends Application {
   }
 
   /**
-   * This handles collision between the player and the house block,
-   * so that the player cannot walk over or through the house.
+   * This handles collision between the player and the house block, so that the player cannot walk
+   * over or through the house.
+   *
    * @param block The house block involved in the collision.
    */
-
   private void houseCollision(Block block) {
     double playerPosX = player.getX();
     double playerPosY = player.getY();
@@ -354,12 +336,11 @@ public class RPG extends Application {
   }
 
   /**
-   * Handles the collision between the player and all the different blocks in the game scene.
-   * It checks for the intersection between the player and different blocks and executes different 
-   * actions, based on the block types.
-   * It also updates the state of the blocks to interactable or Non-interactable, based on player action.
+   * Handles the collision between the player and all the different blocks in the game scene. It
+   * checks for the intersection between the player and different blocks and executes different
+   * actions, based on the block types. It also updates the state of the blocks to interactable or
+   * Non-interactable, based on player action.
    */
-  
   private void playerCollideBlocks() {
     this.borderControl();
     for (Block block : this.blocks) {
@@ -394,16 +375,15 @@ public class RPG extends Application {
   /**
    * @param press True if the space key is pressed, false otherwise.
    */
-
   public void pressedSpace(boolean press) {
     spacePress = press;
   }
 
   /**
    * Updates the game state based on the elapsed time in milliseconds.
+   *
    * @param elapsedMilliseconds The elapsed time in milliseconds.
    */
-
   private void update(double elapsedMilliseconds) {
     this.dayNightCycle.update(elapsedMilliseconds);
     this.player.update(elapsedMilliseconds);
