@@ -1,7 +1,9 @@
 package rpg.inventory;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import rpg.blocks.Block;
@@ -36,6 +38,9 @@ public class Inventory {
   private int selectedX;
   private int selectedY;
 
+  private Map<String, Integer> dictAdd;
+  private Map<String, Integer> dictRemove;
+
   public Inventory() {
     double itemWidth = 45;
     double itemHeight = 45;
@@ -47,6 +52,9 @@ public class Inventory {
 
     double innerXItem = innerX + slotSpacing;
     double innerYItem = innerY + slotSpacing;
+
+    this.dictAdd = new HashMap<>();
+    this.dictRemove = new HashMap<>();
 
     this.inventory = new Block(x, y, width, height, new Image("sprites/inventory.png"));
     this.inventoryTextBox =
@@ -92,6 +100,14 @@ public class Inventory {
     this.state.update(this);
     this.textAdd.update(deltaTime);
 
+    if (!this.textAdd.onScreen) {
+      this.dictAdd.clear();
+    }
+
+    if (!this.textRemove.onScreen) {
+      this.dictRemove.clear();
+    }
+
     for (int i = 0; i < this.items.size(); i++) {
       for (int j = 0; j < this.items.get(i).size(); j++) {
         this.items.get(i).get(j).update(deltaTime);
@@ -117,85 +133,38 @@ public class Inventory {
   }
 
   private void textManager(String type, String text) {
-    int occurrence = 0;
     text = text.replace("_", " ");
-    if (type.equals("add") && !textAdd.onScreen) {
-      this.textAdd.setText("Just added: ", text);
-      this.textAdd.setTimeUntilExpiration(10 * 1000);
-    } else if (type.equals("add") && textAdd.onScreen) {
-      if (textAdd.getText().contains(text)) {
-        if (textAdd.getText().contains(text + " x")) {
-          if (textAdd.getText().contains(" and")
-              && textAdd.getText().indexOf(" and") > textAdd.getText().indexOf(text + " x")) {
-            occurrence =
-                Integer.parseInt(
-                    textAdd
-                        .getText()
-                        .substring(
-                            textAdd.getText().indexOf(text + " x") + (text + " x").length(),
-                            textAdd.getText().indexOf(" and")));
-          } else {
-            occurrence =
-                Integer.parseInt(
-                    textAdd
-                        .getText()
-                        .substring(
-                            textAdd.getText().indexOf(text + " x") + (text + " x").length()));
-          }
+    Map<String, Integer> dict = null;
+    TextBox textBox = null;
 
-          this.textAdd.setText(
-              textAdd
-                  .getText()
-                  .replace(
-                      (text + " x" + String.valueOf(occurrence)),
-                      (text + " x" + String.valueOf(occurrence + 1))));
-
-        } else {
-          this.textAdd.setText(textAdd.getText().replace(text, text + " x2"));
-        }
-      } else {
-        this.textAdd.setText(textAdd.getText() + " and " + text);
-      }
-      this.textAdd.setTimeUntilExpiration(10 * 1000);
+    if (type.equals("add")) {
+      dict = this.dictAdd;
+      textBox = textAdd;
+    } else if (type.equals("remove")) {
+      dict = this.dictRemove;
+      textBox = textRemove;
     }
 
-    if (type.equals("remove") && !textRemove.onScreen) {
-      this.textRemove.setText("Just removed: ", text);
-      this.textRemove.setTimeUntilExpiration(10 * 1000);
-    } else if (type.equals("remove") && textRemove.onScreen) {
-      if (textRemove.getText().contains(text)) {
-        if (textRemove.getText().contains(text + " x")) {
-          if (textRemove.getText().contains(" and")
-              && textRemove.getText().indexOf(" and") > textRemove.getText().indexOf(text + " x")) {
-            occurrence =
-                Integer.parseInt(
-                    textRemove
-                        .getText()
-                        .substring(
-                            textRemove.getText().indexOf(text + " x") + (text + " x").length(),
-                            textRemove.getText().indexOf(" and")));
-          } else {
-            occurrence =
-                Integer.parseInt(
-                    textRemove
-                        .getText()
-                        .substring(
-                            textRemove.getText().indexOf(text + " x") + (text + " x").length()));
-          }
-          this.textRemove.setText(
-              textRemove
-                  .getText()
-                  .replace(
-                      (text + " x" + String.valueOf(occurrence)),
-                      text + " x" + String.valueOf(occurrence + 1)));
-
+    if (!textBox.onScreen) {
+      textBox.setText("Just added: ", text);
+      textBox.setTimeUntilExpiration(10 * 1000);
+    } else {
+      if (textBox.getText().contains(text)) {
+        if (!dict.containsKey(text + " x")) {
+          dict.put(text + " x", 2);
+          textBox.setText(textBox.getText().replace(text, text + " x" + dict.get(text + " x")));
         } else {
-          this.textRemove.setText(textRemove.getText().replace(text, text + " x2"));
+          Integer currentValue = dict.get(text + " x");
+          dict.put(text + " x", currentValue + 1);
+          textBox.setText(
+              textBox
+                  .getText()
+                  .replace(text + " x" + currentValue, text + " x" + dict.get(text + " x")));
         }
       } else {
-        this.textRemove.setText(textRemove.getText() + " and " + text);
+        textBox.setText(textBox.getText() + " and " + text);
       }
-      this.textRemove.setTimeUntilExpiration(10 * 1000);
+      textBox.setTimeUntilExpiration(10 * 1000);
     }
   }
 
