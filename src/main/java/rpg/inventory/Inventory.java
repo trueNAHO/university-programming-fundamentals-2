@@ -10,10 +10,7 @@ import rpg.inventory.states.InventoryState;
 import rpg.inventory.states.NullState;
 import rpg.text_box.TextBox;
 
-/**
- * Represents the inventory.
- */
-
+/** Represents the inventory. */
 public class Inventory {
 
   public Block inventory;
@@ -43,10 +40,7 @@ public class Inventory {
   private Map<String, Integer> dictAdd;
   private Map<String, Integer> dictRemove;
 
-  /**
-   * Constructs the inventory object.
-   */
-  
+  /** Constructs the inventory object. */
   public Inventory() {
     double itemWidth = 45;
     double itemHeight = 45;
@@ -102,9 +96,9 @@ public class Inventory {
 
   /**
    * Updates the inventory.
-   * @param deltaTime The time since the last update. 
+   *
+   * @param deltaTime The time since the last update.
    */
-  
   public void update(double deltaTime) {
     this.inventory.update(deltaTime);
     this.inventoryTextBox.update(deltaTime);
@@ -129,50 +123,50 @@ public class Inventory {
 
   /**
    * Gets the type of the selected item.
+   *
    * @return The type of the selected item.
    */
-  
   public String getItem() {
     return this.items.get(selectedY).get(selectedX).type;
   }
 
   /**
    * Gets the type of the selected item at the specified location.
+   *
    * @param x The x-coordinate of the item.
    * @param y The y-coordinate of the item.
    * @return The type of the selected item.
    */
-  
   public String getItem(int x, int y) {
     return this.items.get(y).get(x).type;
   }
 
   /**
    * Gets the amount of the selected item.
+   *
    * @return The amount of the selected item.
    */
-  
   public int getAmount() {
     return this.items.get(selectedY).get(selectedX).amount;
   }
 
   /**
    * Gets the amount of the selected item at the specified location.
+   *
    * @param x The x-coordinate of the item.
    * @param y The y-coordinate of the item.
    * @return The amount of the selected item.
    */
-  
   public int getAmount(int x, int y) {
     return this.items.get(y).get(x).amount;
   }
 
   /**
    * Manages the text displayed in the inventory.
+   *
    * @param type The type of the action (add/remove).
    * @param text The text to be displayed.
    */
-  
   private void textManager(String type, String text) {
     text = text.replace("_", " ");
     Map<String, Integer> dict = null;
@@ -182,12 +176,13 @@ public class Inventory {
       dict = this.dictAdd;
       textBox = textAdd;
     } else if (type.equals("remove")) {
+      type = "remov";
       dict = this.dictRemove;
       textBox = textRemove;
     }
 
     if (!textBox.onScreen) {
-      textBox.setText("Just added: ", text);
+      textBox.setText("Just " + type + "ed: ", text);
       textBox.setTimeUntilExpiration(10 * 1000);
     } else {
       if (textBox.getText().contains(text)) {
@@ -211,15 +206,15 @@ public class Inventory {
 
   /**
    * Adds an item to the inventory.
+   *
    * @param type The type of item to be added to the inventory.
    */
-  
   public void add(String type) {
     if (!type.equals("empty")) {
       for (int i = 0; i < this.items.size(); i++) {
         for (int j = 0; j < this.items.get(i).size(); j++) {
           if (this.items.get(i).get(j).type.equals(type)) {
-            if (this.items.get(i).get(j).inTheLimit()) {
+            if (this.items.get(i).get(j).inTheLimit(true)) {
               this.items.get(i).get(j).add();
               textManager("add", type);
               description();
@@ -245,9 +240,9 @@ public class Inventory {
 
   /**
    * Removes an item from the inventory.
+   *
    * @param type The type of item to be removed from the inventory.
    */
-  
   public void remove(String type) {
     if (!type.equals("empty")) {
       for (int i = 0; i < this.items.size(); i++) {
@@ -265,21 +260,18 @@ public class Inventory {
 
   /**
    * Sets the amount and type of an item at a specified position.
+   *
    * @param x The x-coordinate of the item.
    * @param y The y-coordinate of the item.
    * @param amount The amount of the item.
    * @param type The type of the item.
    */
-  
   public void set(int x, int y, int amount, String type) {
     this.items.get(y).get(x).set(type, amount);
     description();
   }
 
-  /**
-   * Updates the inventory description.
-   */
-  
+  /** Updates the inventory description. */
   public void description() {
     if (getItem().equals("empty")) {
       this.textBoxInventory.setText("", "");
@@ -288,27 +280,18 @@ public class Inventory {
     }
   }
 
-  /**
-   * Selects the current item.
-   */
-  
+  /** Selects the current item. */
   public void select() {
     this.slots.get(selectedY).get(selectedX).select();
     description();
   }
 
-  /**
-   * Unselects the current item.
-   */
-  
+  /** Unselects the current item. */
   public void unselect() {
     this.slots.get(selectedY).get(selectedX).unselect();
   }
 
-  /**
-   * Moves selection up.
-   */
-  
+  /** Moves selection up. */
   public void selectUp() {
     if (selectedY > 0) {
       unselect();
@@ -317,10 +300,7 @@ public class Inventory {
     }
   }
 
-  /**
-   * Moves selection down.
-   */
-
+  /** Moves selection down. */
   public void selectDown() {
     if (selectedY < 3) {
       unselect();
@@ -329,10 +309,7 @@ public class Inventory {
     }
   }
 
-  /**
-   * Moves selection left.
-   */
-
+  /** Moves selection left. */
   public void selectLeft() {
     if (selectedX > 0) {
       unselect();
@@ -341,10 +318,7 @@ public class Inventory {
     }
   }
 
-  /**
-   * Moves selection right.
-   */
-
+  /** Moves selection right. */
   public void selectRight() {
     if (selectedX < 7) {
       unselect();
@@ -355,9 +329,9 @@ public class Inventory {
 
   /**
    * Sets a new state for the inventory.
-   * @param newState The new state to be set. 
+   *
+   * @param newState The new state to be set.
    */
-  
   public void setState(InventoryState newState) {
     this.state.exit(this);
     this.state = newState;
