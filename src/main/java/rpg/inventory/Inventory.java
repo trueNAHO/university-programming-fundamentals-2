@@ -7,10 +7,12 @@ import javafx.scene.paint.Color;
 import rpg.blocks.Block;
 import rpg.inventory.states.InventoryState;
 import rpg.inventory.states.NullState;
+import rpg.text_box.TextBox;
 
 public class Inventory {
 
   public Block inventory;
+  public Block inventoryTextBox;
   private InventoryState state;
   public List<List<Slot>> slots;
   public List<List<Item>> items;
@@ -24,13 +26,14 @@ public class Inventory {
   private double y = 0;
   private double width = 487;
   private double height = 260;
+  private double textBoxHeight = 88;
   private int sideBorder = 20;
   private int topBorder = 20;
+  public TextBox textAdd;
+  public TextBox textRemove;
 
   private int selectedX;
   private int selectedY;
-
-  Image image = new Image("sprites/inventory.png");
 
   public Inventory() {
     double itemWidth = 45;
@@ -44,7 +47,14 @@ public class Inventory {
     double innerXItem = innerX + slotSpacing;
     double innerYItem = innerY + slotSpacing;
 
-    this.inventory = new Block(x, y, width, height, image);
+    this.inventory = new Block(x, y, width, height, new Image("sprites/inventory.png"));
+    this.inventoryTextBox =
+        new Block(x, y + height, width, textBoxHeight, new Image("sprites/inventoryTextBox.png"));
+    this.textAdd = new TextBox("test", "test", 0, 0, 0);
+    this.textAdd.setStyle("-fx-background-color: rgba(186, 186, 186, 0.9);-fx-font-size: 20px;");
+    this.textRemove = new TextBox("test", "test", 0, 0, 25);
+    this.textRemove.setStyle("-fx-background-color: rgba(186, 186, 186, 0.9);-fx-font-size: 20px;");
+
     this.state = new NullState();
     this.items = new ArrayList<>();
     this.slots = new ArrayList<>();
@@ -75,7 +85,9 @@ public class Inventory {
 
   public void update(double deltaTime) {
     this.inventory.update(deltaTime);
+    this.inventoryTextBox.update(deltaTime);
     this.state.update(this);
+    this.textAdd.update(deltaTime);
 
     for (int i = 0; i < this.items.size(); i++) {
       for (int j = 0; j < this.items.get(i).size(); j++) {
@@ -93,6 +105,88 @@ public class Inventory {
     return this.items.get(y).get(x).type;
   }
 
+  private void textManager(String type, String text) {
+    int occurrence = 0;
+    if (type.equals("add") && !textAdd.onScreen) {
+      this.textAdd.setText("Just added: ", text);
+      this.textAdd.setTimeUntilExpiration(10 * 1000);
+    } else if (type.equals("add") && textAdd.onScreen) {
+      if (textAdd.getText().contains(text)) {
+        if (textAdd.getText().contains(text + " x")) {
+          if (textAdd.getText().contains(" and")
+              && textAdd.getText().indexOf(" and") > textAdd.getText().indexOf(text + " x")) {
+            occurrence =
+                Integer.parseInt(
+                    textAdd
+                        .getText()
+                        .substring(
+                            textAdd.getText().indexOf(text + " x") + (text + " x").length(),
+                            textAdd.getText().indexOf(" and")));
+          } else {
+            occurrence =
+                Integer.parseInt(
+                    textAdd
+                        .getText()
+                        .substring(
+                            textAdd.getText().indexOf(text + " x") + (text + " x").length()));
+          }
+
+          this.textAdd.setText(
+              textAdd
+                  .getText()
+                  .replace(
+                      (text + " x" + String.valueOf(occurrence)),
+                      (text + " x" + String.valueOf(occurrence + 1))));
+
+        } else {
+          this.textAdd.setText(textAdd.getText().replace(text, text + " x2"));
+        }
+      } else {
+        this.textAdd.setText(textAdd.getText() + " and " + text);
+      }
+      this.textAdd.setTimeUntilExpiration(10 * 1000);
+    }
+
+    if (type.equals("remove") && !textRemove.onScreen) {
+      this.textRemove.setText("Just removed: ", text);
+      this.textRemove.setTimeUntilExpiration(10 * 1000);
+    } else if (type.equals("remove") && textRemove.onScreen) {
+      if (textRemove.getText().contains(text)) {
+        if (textRemove.getText().contains(text + " x")) {
+          if (textRemove.getText().contains(" and")
+              && textRemove.getText().indexOf(" and") > textRemove.getText().indexOf(text + " x")) {
+            occurrence =
+                Integer.parseInt(
+                    textRemove
+                        .getText()
+                        .substring(
+                            textRemove.getText().indexOf(text + " x") + (text + " x").length(),
+                            textRemove.getText().indexOf(" and")));
+          } else {
+            occurrence =
+                Integer.parseInt(
+                    textRemove
+                        .getText()
+                        .substring(
+                            textRemove.getText().indexOf(text + " x") + (text + " x").length()));
+          }
+          this.textRemove.setText(
+              textRemove
+                  .getText()
+                  .replace(
+                      (text + " x" + String.valueOf(occurrence)),
+                      text + " x" + String.valueOf(occurrence + 1)));
+
+        } else {
+          this.textRemove.setText(textRemove.getText().replace(text, text + " x2"));
+        }
+      } else {
+        this.textRemove.setText(textRemove.getText() + " and " + text);
+      }
+      this.textRemove.setTimeUntilExpiration(10 * 1000);
+    }
+  }
+
   public void add(String type) {
     if (!type.equals("empty")) {
       for (int i = 0; i < this.items.size(); i++) {
@@ -100,6 +194,7 @@ public class Inventory {
           if (this.items.get(i).get(j).type.equals(type)) {
             if (this.items.get(i).get(j).inTheLimit()) {
               this.items.get(i).get(j).add();
+              textManager("add", type);
               return;
             } else {
               break;
@@ -112,6 +207,7 @@ public class Inventory {
         for (int j = 0; j < this.items.get(i).size(); j++) {
           if (this.items.get(i).get(j).type.equals("empty")) {
             this.items.get(i).get(j).set(type);
+            textManager("add", type);
             return;
           }
         }
@@ -125,6 +221,7 @@ public class Inventory {
         for (int j = 0; j < this.items.get(i).size(); j++) {
           if (this.items.get(i).get(j).type.equals(type)) {
             this.items.get(i).get(j).remove();
+            textManager("remove", type);
             return;
           }
         }

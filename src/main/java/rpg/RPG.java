@@ -63,7 +63,7 @@ public class RPG extends Application {
   private ArrayList<Block> blocks = new ArrayList<>();
   private Inventory inventory = new Inventory();
   private Block house = new Block(200, 200, 200, 200, HOUSE_IMAGE);
-  private Field field = new Field(300, 500, 500, 250, FIEL_IMAGE, PLANT_IMAGE, 5, 8, 20);
+  private Field field = new Field(300, 500, 650, 350, FIEL_IMAGE, PLANT_IMAGE, 5, 8, 30);
   private Group root = new Group();
   private HashMap<String, TextBox> textBoxes = new HashMap<>();
   private InputHandler inputHandler = new InputHandler();
@@ -175,6 +175,7 @@ public class RPG extends Application {
     }
 
     this.blocks.add(this.inventory.inventory);
+    this.blocks.add(this.inventory.inventoryTextBox);
 
     for (int i = 0; i < this.inventory.items.size(); i++) {
       for (int j = 0; j < this.inventory.items.get(0).size(); j++) {
@@ -228,12 +229,16 @@ public class RPG extends Application {
       this.textBoxes.put(plant, textBox);
       this.root.getChildren().add(textBox.textBox);
     }
+    this.textBoxes.put("add", this.inventory.textAdd);
+    this.root.getChildren().add(this.inventory.textAdd.textBox);
+    this.textBoxes.put("remove", this.inventory.textRemove);
+    this.root.getChildren().add(this.inventory.textRemove.textBox);
   }
 
   private void borderControl() {
     double playerPosX = player.getX();
     double playerPosY = player.getY();
-    System.out.println(playerPosX + "     " + playerPosY);
+    // System.out.println(playerPosX + "     " + playerPosY);
 
     if (playerPosY <= 0) {
       player.setY(player.getY() + 1 * MS_PER_UPDATE);
