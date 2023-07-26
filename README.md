@@ -57,7 +57,7 @@ For information on contributing to this project, please refer to
 
 ## Contributors and Contributions
 
-### Noah Pierre Biewesch
+### NAHO
 
 - Initial Framework Setup
   - Established the foundation of the application by creating the main game
